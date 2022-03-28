@@ -6,19 +6,17 @@ import urllib.parse
 import selenium.webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
+from selenium.webdriver.edge.options import Options
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.wait import WebDriverWait
 
 
 def wd_login(xuhao, mima):
-    edge = {
-        "ms:edgeOptions": {
-            'excludeSwitches': ['enable-automation', 'enable-logging'],
-            'args': ['--headless', '--disable-gpu']
-        }
-    }
+    options = Options()
+    options.add_argument("--headless")
+    options.add_experimental_option("excludeSwitches", ['enable-logging'])
 
-    driver = selenium.webdriver.Edge(capabilities=edge)
+    driver = selenium.webdriver.Edge(options=options)
 
     driver.get(
         f'https://newcas.gzhu.edu.cn/cas/login?service=https%3A%2F%2Fnewmy.gzhu.edu.cn%2Fup%2Fview%3Fm%3Dup'
