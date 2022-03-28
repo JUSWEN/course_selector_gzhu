@@ -40,6 +40,8 @@ def main():
                 print('已成功登录融合门户，但不能找到教务系统图标按钮！')
                 print('重新运行程序或重启电脑或许能解决问题！')
 
+            input()
+
             sys.exit(0)
 
         xuehao_mima.save_xuhaoMima(xuhao, mima)
@@ -49,6 +51,8 @@ def main():
         pString = next(ydriver)
         print(pString)
         if pString == '选课系统未开放,无法录入抢课信息，请在选课系统开放后再运行此脚本':
+            input()
+
             sys.exit()
 
     # 如果有抢课信息表单，则继续运行程序

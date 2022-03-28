@@ -78,3 +78,5 @@ def qiangke(xuhao):
     loop.close()
 
     print('抢课结束！')
+
+    input()
