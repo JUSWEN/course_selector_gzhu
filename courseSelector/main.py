@@ -1,19 +1,11 @@
-import imp
 import os
 import re
 import sys
-import urllib.parse
 from multiprocessing import Process
 
-from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as ec
-from selenium.webdriver.support.wait import WebDriverWait
 
-from . import cookies_prepare
-from . import qiangke
-from . import wd_login
-from . import xuehao_mima
+from . import cookies_prepare, qiangke, wd_login, xuehao_mima
 
 
 def main():
