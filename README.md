@@ -36,7 +36,7 @@ os
 
 ```cmd
 pip3 install requests
-pip3 install selenium==4.0.0
+pip3 install selenium
 pip3 install os
 ```
 
