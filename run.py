@@ -6,5 +6,4 @@
 
 from courseSelector import main
 
-driver_path = r"c:\msedgedriver.exe"
-main.main(driver_path)
+main.main()

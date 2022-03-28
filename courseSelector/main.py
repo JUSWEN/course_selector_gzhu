@@ -16,14 +16,14 @@ from . import wd_login
 from . import xuehao_mima
 
 
-def main(driver_path):
+def main():
     xuhao, mima = xuehao_mima.xuehao_mima()
 
     data_txt = os.path.exists('./data.txt')
 
     # 如果没有data.txt选课信息表单，就要求用户输入选课信息，生成表单
     if not data_txt:
-        ydriver = wd_login.wd_login(driver_path, xuhao, mima)
+        ydriver = wd_login.wd_login(xuhao, mima)
 
         driver = next(ydriver)
 
@@ -66,8 +66,7 @@ def main(driver_path):
 
     # 创建两个进程，一个用来每二十分钟更新一次cookie， 一个用来发送表单抢课
     process = [
-        Process(target=cookies_prepare.cookies_prepare,
-                args=(driver_path, xuhao, mima)),
+        Process(target=cookies_prepare.cookies_prepare, args=(xuhao, mima)),
         Process(target=qiangke.qiangke, args=(xuhao, ))
     ]
 

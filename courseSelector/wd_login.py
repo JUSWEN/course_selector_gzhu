@@ -10,7 +10,7 @@ from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.wait import WebDriverWait
 
 
-def wd_login(driver_path, xuhao, mima):
+def wd_login(xuhao, mima):
     edge = {
         "ms:edgeOptions": {
             'excludeSwitches': ['enable-automation', 'enable-logging'],
@@ -18,7 +18,7 @@ def wd_login(driver_path, xuhao, mima):
         }
     }
 
-    driver = selenium.webdriver.Edge(driver_path, capabilities=edge)
+    driver = selenium.webdriver.Edge(capabilities=edge)
 
     driver.get(
         f'https://newcas.gzhu.edu.cn/cas/login?service=https%3A%2F%2Fnewmy.gzhu.edu.cn%2Fup%2Fview%3Fm%3Dup'
@@ -50,7 +50,7 @@ def wd_login(driver_path, xuhao, mima):
     if title == '融合门户':
         driver.close()
         windows = driver.window_handles
-        driver.switch_to_window(windows[0])
+        driver.switch_to.window(windows[0])
 
     try:
         WebDriverWait(driver, 10, 0.5).until(
@@ -66,7 +66,7 @@ def wd_login(driver_path, xuhao, mima):
     if title == '广州大学教学综合信息服务平台':
         driver.close()
         windows = driver.window_handles
-        driver.switch_to_window(windows[0])
+        driver.switch_to.window(windows[0])
 
     try:
         WebDriverWait(driver, 10, 0.5).until(
