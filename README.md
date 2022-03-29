@@ -21,7 +21,7 @@
 
 ## 不想安装python环境的同学，可以查看我的另一个github项目
 
-[exe版广州大学gzhu抢课脚本](https://github.com/MILK2077/exe_gzhu_course_selector)
+[exe版广州大学gzhu抢课脚本（要求系统win10及以上）](https://github.com/MILK2077/exe_gzhu_course_selector)
 
 ## 运行环境
 
