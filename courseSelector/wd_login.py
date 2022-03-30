@@ -1,3 +1,4 @@
+from gettext import install
 import json
 import re
 import urllib.parse
@@ -8,6 +9,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.edge.options import Options
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.edge.service import Service
+from webdriver_manager.microsoft import EdgeChromiumDriverManager
 
 
 def wd_login(xuhao, mima):
@@ -15,7 +18,9 @@ def wd_login(xuhao, mima):
     options.add_argument("--headless")
     options.add_experimental_option("excludeSwitches", ['enable-logging'])
 
-    driver = selenium.webdriver.Edge(options=options)
+    driver = selenium.webdriver.Edge(service=Service(
+        EdgeChromiumDriverManager().install()),
+                                     options=options)
 
     driver.get(
         f'https://newcas.gzhu.edu.cn/cas/login?service=https%3A%2F%2Fnewmy.gzhu.edu.cn%2Fup%2Fview%3Fm%3Dup'
