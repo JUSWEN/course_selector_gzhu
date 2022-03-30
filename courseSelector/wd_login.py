@@ -28,9 +28,9 @@ def wd_login(xuhao, mima):
     except:
         pass
 
-    driver.find_element_by_id('un').send_keys(xuhao)
-    driver.find_element_by_id('pd').send_keys(mima)
-    driver.find_element_by_id('index_login_btn').click()
+    driver.find_element(By.ID, 'un').send_keys(xuhao)
+    driver.find_element(By.ID, 'pd').send_keys(mima)
+    driver.find_element(By.ID, 'index_login_btn').click()
 
     try:
         WebDriverWait(driver, 10, 0.5).until(
@@ -55,9 +55,10 @@ def wd_login(xuhao, mima):
     except:
         pass
 
-    driver.find_element_by_xpath(
+    driver.find_element(
+        By.XPATH,
         '//nav[@id="cdNav"]/ul[@class="nav navbar-nav"]/li[3]').click()
-    driver.find_element_by_xpath('//a[contains(text(),"自主选课")]').click()
+    driver.find_element(By.XPATH, '//a[contains(text(),"自主选课")]').click()
 
     title = driver.title
     if title == '广州大学教学综合信息服务平台':
@@ -124,28 +125,32 @@ def wd_login(xuhao, mima):
             input('请输入课程类别：\n主修课程请输入1，板块课体育请输入2，通识选修请输入3，其他特殊课程请输入4\n'))
 
         if course_classification == 1:
-            driver.find_element_by_xpath(
+            driver.find_element(
+                By.XPATH,
                 '//ul[@class="nav nav-tabs sl_nav_tabs"]/li[1]').click()
 
         elif course_classification == 2:
-            driver.find_element_by_xpath(
+            driver.find_element(
+                By.XPATH,
                 '//ul[@class="nav nav-tabs sl_nav_tabs"]/li[2]').click()
 
         elif course_classification == 3:
-            driver.find_element_by_xpath(
+            driver.find_element(
+                By.XPATH,
                 '//ul[@class="nav nav-tabs sl_nav_tabs"]/li[3]').click()
 
         elif course_classification == 4:
-            driver.find_element_by_xpath(
+            driver.find_element(
+                By.XPATH,
                 '//ul[@class="nav nav-tabs sl_nav_tabs"]/li[4]').click()
 
-        sendkeys_button = driver.find_element_by_xpath(
-            '//input[@placeholder="请输入课程号或课程名称或教学班名称查询!"]')
+        sendkeys_button = driver.find_element(
+            By.XPATH, '//input[@placeholder="请输入课程号或课程名称或教学班名称查询!"]')
         # ActionChains能模拟鼠标移动，点击，拖拽，长按，双击等等操作...
         ActionChains(driver).move_to_element(
             sendkeys_button).click().send_keys(kch_id).perform()
 
-        driver.find_element_by_xpath('//button[@name="query"]').click()
+        driver.find_element(By.XPATH, '//button[@name="query"]').click()
 
         try:
             WebDriverWait(driver, 10, 0.5).until(
@@ -173,14 +178,14 @@ def wd_login(xuhao, mima):
         while i <= int(jxb_numbers[0]):
             # 不同的教学班的信息在不同序号的tr标签下,依次打印各个教学班的信息
             # 老师名字与职称
-            teacher = driver.find_element_by_xpath(
-                "//tr[%d]/td[@class='jsxmzc']" % i).text
+            teacher = driver.find_element(
+                By.XPATH, "//tr[%d]/td[@class='jsxmzc']" % i).text
             # 上课时间
-            course_time = driver.find_element_by_xpath(
-                "//tr[%d]/td[@class='sksj']" % i).text
+            course_time = driver.find_element(
+                By.XPATH, "//tr[%d]/td[@class='sksj']" % i).text
             # 教学班号
-            course_number = driver.find_element_by_xpath(
-                "//tr[%d]/td[@class='jxbmc']" % i).text
+            course_number = driver.find_element(
+                By.XPATH, "//tr[%d]/td[@class='jxbmc']" % i).text
 
             print('教学班%d,老师:%s,上课时间:%s,教学班号:%s\n' %
                   (i, teacher, course_time, course_number))
@@ -191,7 +196,8 @@ def wd_login(xuhao, mima):
         jxbmc = input(
             '请从上面的教学班中选择并复制粘贴要选择的教学班的教学班号，示例:(2021-2022-2)-131800701-1\n注意！教学班号的左右不要留有空格！\n'
         )
-        tobeprocessed_jxb_ids = driver.find_element_by_xpath(
+        tobeprocessed_jxb_ids = driver.find_element(
+            By.XPATH,
             '//td[@class="jxbmc" and contains(text(), "%s")]/../td[@class="an"]/button'
             % jxbmc).get_attribute('onclick')
         jxb_ids = tobeprocessed_jxb_ids.split(',')[1][1:-1]
@@ -230,10 +236,10 @@ def wd_login(xuhao, mima):
             "document.getElementById('xkkz_id')['value']")
 
         # 下面是用xpath找属性值的函数
-        cxbj = driver.find_element_by_xpath(
-            "//input[@name='cxbj']").get_attribute('value')
-        xxkbj = driver.find_element_by_xpath(
-            "//input[@name='xxkbj']").get_attribute('value')
+        cxbj = driver.find_element(
+            By.XPATH, "//input[@name='cxbj']").get_attribute('value')
+        xxkbj = driver.find_element(
+            By.XPATH, "//input[@name='xxkbj']").get_attribute('value')
 
         # 下面是完整的data表单的内容
         # sxbj与qz的属性没有在页面中找到,通过抓包获得

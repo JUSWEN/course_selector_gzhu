@@ -25,7 +25,8 @@ def main():
             print('融合门户登录成功！')
 
         try:
-            driver.find_element_by_xpath(
+            driver.find_element(
+                By.XPATH,
                 '//img[@src="/up/resource/image/home/gz/app/jwxt.png"]').click(
                 )
         except Exception as e:

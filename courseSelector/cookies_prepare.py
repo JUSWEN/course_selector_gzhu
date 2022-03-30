@@ -1,4 +1,5 @@
 import time
+from selenium.webdriver.common.by import By
 
 from . import wd_login
 
@@ -10,7 +11,8 @@ def cookies_prepare(driver_path, xuhao, mima):
 
             driver = next(ydriver)
 
-            driver.find_element_by_xpath(
+            driver.find_element(
+                By.XPATH,
                 '//img[@src="/up/resource/image/home/gz/app/jwxt.png"]').click(
                 )
 
