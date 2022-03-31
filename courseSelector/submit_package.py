@@ -8,11 +8,10 @@ async def submit_package(xuhao, data, jar):
         "User-Agent":
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36 Edg/96.0.1054.62 ",
         "refer":
-        "http://jwxt.gzhu.edu.cn/jwglxt/xsxk/zzxkyzb_cxZzxkYzbIndex.htmlgnmkdm=N253512&layout=default&su="
-        + xuhao
+        f"http://jwxt.gzhu.edu.cn/jwglxt/xsxk/zzxkyzb_cxZzxkYzbIndex.htmlgnmkdm=N253512&layout=default&su={xuhao}"
     }
 
-    url = "http://jwxt.gzhu.edu.cn/jwglxt/xsxk/zzxkyzbjk_xkBcZyZzxkYzb.html?gnmkdm=N253512&su=" + xuhao
+    url = f"http://jwxt.gzhu.edu.cn/jwglxt/xsxk/zzxkyzbjk_xkBcZyZzxkYzb.html?gnmkdm=N253512&su={xuhao}"
 
     params = {"gnmkdm": "N253512", "su": xuhao}
 

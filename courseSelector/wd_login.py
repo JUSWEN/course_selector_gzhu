@@ -170,9 +170,9 @@ def wd_login(xuhao, mima):
 
         if len(jxb_numbers) == 0:
             print('未找到教学班信息，请检查信息是否输入正确')
-            print(
-                '教学班名称示例:(180111005)地理教学技能 - 1.0 学分\n注意！名称的左右不要留有空格！\n注意！请检查课程类别是否正确！'
-            )
+            print('教学班名称示例:(180111005)地理教学技能 - 1.0 学分\n')
+            print('注意！名称的左右不要留有空格！\n'
+                  '注意！请检查课程类别是否正确！')
             print('请在程序提示后，重新输入信息！')
 
             continue
@@ -183,27 +183,27 @@ def wd_login(xuhao, mima):
             # 不同的教学班的信息在不同序号的tr标签下,依次打印各个教学班的信息
             # 老师名字与职称
             teacher = driver.find_element(
-                By.XPATH, "//tr[%d]/td[@class='jsxmzc']" % i).text
+                By.XPATH, f"//tr[{i}]/td[@class='jsxmzc']").text
             # 上课时间
             course_time = driver.find_element(
-                By.XPATH, "//tr[%d]/td[@class='sksj']" % i).text
+                By.XPATH, f"//tr[{i}]/td[@class='sksj']").text
             # 教学班号
             course_number = driver.find_element(
-                By.XPATH, "//tr[%d]/td[@class='jxbmc']" % i).text
+                By.XPATH, f"//tr[{i}]]/td[@class='jxbmc']").text
 
-            print('教学班%d,老师:%s,上课时间:%s,教学班号:%s\n' %
-                  (i, teacher, course_time, course_number))
+            print(
+                f'教学班{i},老师:{teacher},上课时间:{course_time},教学班号:{course_number}\n'
+            )
 
             i += 1
 
         # jxbmc为教学班号，通过输入的教学班号找到对应的jxb_ids的内容
-        jxbmc = input(
-            '请从上面的教学班中选择并复制粘贴要选择的教学班的教学班号，示例:(2021-2022-2)-131800701-1\n注意！教学班号的左右不要留有空格！\n'
-        )
+        jxbmc = input('请从上面的教学班中选择并复制粘贴要选择的教学班的教学班号'
+                      '，示例:(2021-2022-2)-131800701-1\n注意！教学班号的左右不要留有空格！\n')
         tobeprocessed_jxb_ids = driver.find_element(
             By.XPATH,
-            '//td[@class="jxbmc" and contains(text(), "%s")]/../td[@class="an"]/button'
-            % jxbmc).get_attribute('onclick')
+            f'//td[@class="jxbmc" and contains(text(), "{jxbmc}")]/../td[@class="an"]/button'
+        ).get_attribute('onclick')
         jxb_ids = tobeprocessed_jxb_ids.split(',')[1][1:-1]
 
         # 下面是求kcmc的函数
