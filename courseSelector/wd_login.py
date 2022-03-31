@@ -1,4 +1,3 @@
-from gettext import install
 import json
 import re
 import urllib.parse
