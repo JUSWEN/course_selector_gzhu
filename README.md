@@ -4,11 +4,9 @@
 >
 > 谨献给745宿舍全体靓仔，祝各位靓仔学业顺利
 >
-> 邮箱 lihao_deng@qq.com
->
 > 本人不对因使用此脚本而产生的任何后果或损失负责
 >
-> 如果遇到bug请重新运行程序，若程序多次异常，可以联系我的邮箱
+> 如果遇到bug请重新运行程序，若程序多次异常，可以提出Issue
 
 <!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
 
