@@ -8,7 +8,9 @@ from requests.cookies import RequestsCookieJar
 from . import submit_package
 
 
-def qiangke(xuhao):
+def qiangke(xuhao, delay):
+    time.sleep(delay)
+
     print('开始抢课！')
 
     cookie_txt = os.path.exists('./cookies.txt')

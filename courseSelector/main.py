@@ -47,7 +47,7 @@ def main():
 
         xuehao_mima.save_xuhaoMima(xuhao, mima)
 
-        driver = next(ydriver)
+        next(ydriver)
 
         pString = next(ydriver)
         print(pString)
@@ -61,10 +61,20 @@ def main():
         print('已存在抢课信息，如需重新选择抢课信息，请停止运行程序\n'
               '并删除此脚本当前目录下的"data.txt"文件,然后重新运行程序')
 
-    # 创建两个进程，一个用来每二十分钟更新一次cookie， 一个用来发送表单抢课
+    delay = input("请输入延时执行抢课的分钟数，建议延时至抢课前3到4分钟\n"
+                  "如果直接Enter，则延时为0。抢课进程将在延时的分钟数后开始执行，\n"
+                  "另一个进程将立即执行，登陆教务系统，维持会话并定时更新cookie\n"
+                  "请输入延时分钟数：")
+    
+    if delay == '':
+        delay = 0
+    else:
+        delay = int(delay)*60
+
+    # 创建两个进程，一个用更新cookie以及维持会话， 一个用来发送表单抢课
     process = [
         Process(target=cookies_prepare.cookies_prepare, args=(xuhao, mima)),
-        Process(target=qiangke.qiangke, args=(xuhao, ))
+        Process(target=qiangke.qiangke, args=(xuhao, delay))
     ]
 
     [p.start() for p in process]

@@ -68,23 +68,6 @@ def wd_login(xuhao, mima):
     except:
         pass
 
-    driver.find_element(
-        By.XPATH,
-        '//nav[@id="cdNav"]/ul[@class="nav navbar-nav"]/li[3]').click()
-    driver.find_element(By.XPATH, '//a[contains(text(),"自主选课")]').click()
-
-    title = driver.title
-    if title == '广州大学教学综合信息服务平台':
-        windows = driver.window_handles
-        driver.switch_to.window(windows[-1])
-
-    try:
-        WebDriverWait(driver, 10, 0.5).until(
-            ec.visibility_of_element_located(
-                (By.XPATH, '//div[@class="navbar-header"]')))
-    except:
-        pass
-
     # 得到dict的cookie
     dictcookies = driver.get_cookies()
     # json.dumps和json.loads分别是将字典转换为字符串和将字符串转换为字典的方法
@@ -107,8 +90,27 @@ def wd_login(xuhao, mima):
     i = 1
 
     while True:
-        # 第一次循环，判断是否处于选课阶段
+        # 第一次循环，进入选课系统，并判断是否处于选课阶段
         if i == 1:
+            driver.find_element(
+                By.XPATH,
+                '//nav[@id="cdNav"]/ul[@class="nav navbar-nav"]/li[3]').click(
+                )
+            driver.find_element(By.XPATH,
+                                '//a[contains(text(),"自主选课")]').click()
+
+            title = driver.title
+            if title == '广州大学教学综合信息服务平台':
+                windows = driver.window_handles
+                driver.switch_to.window(windows[-1])
+
+            try:
+                WebDriverWait(driver, 10, 0.5).until(
+                    ec.visibility_of_element_located(
+                        (By.XPATH, '//div[@class="navbar-header"]')))
+            except:
+                pass
+
             source = driver.page_source
             # 通过页面信息判断是否处于选课阶段
             judge = re.findall("当前不属于选课阶段", source)
