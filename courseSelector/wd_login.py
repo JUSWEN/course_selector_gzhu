@@ -14,8 +14,18 @@ from webdriver_manager.microsoft import EdgeChromiumDriverManager
 
 def wd_login(xuhao, mima):
     options = Options()
-    options.add_argument("--headless")
-    options.add_experimental_option("excludeSwitches", ['enable-logging'])
+    optionsList = [
+        "--headless", "--enable-javascript", "start-maximized",
+        "--disable-gpu", "--disable-extensions", "--no-sandbox",
+        "--disable-browser-side-navigation", "--disable-dev-shm-usage"
+    ]
+
+    for option in optionsList:
+        options.add_argument(option)
+
+    options.add_experimental_option(
+        "excludeSwitches",
+        ["ignore-certificate-errors", "enable-automation", "enable-logging"])
 
     driver = selenium.webdriver.Edge(service=Service(
         EdgeChromiumDriverManager().install()),
@@ -49,9 +59,8 @@ def wd_login(xuhao, mima):
 
     title = driver.title
     if title == '融合门户':
-        driver.close()
         windows = driver.window_handles
-        driver.switch_to.window(windows[0])
+        driver.switch_to.window(windows[-1])
 
     try:
         WebDriverWait(driver, 10, 0.5).until(
@@ -66,9 +75,8 @@ def wd_login(xuhao, mima):
 
     title = driver.title
     if title == '广州大学教学综合信息服务平台':
-        driver.close()
         windows = driver.window_handles
-        driver.switch_to.window(windows[0])
+        driver.switch_to.window(windows[-1])
 
     try:
         WebDriverWait(driver, 10, 0.5).until(
