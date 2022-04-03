@@ -34,9 +34,9 @@ def access_maintainCookie(student_number, password):
             if pageName in [0, 1]:
                 gzhuWebdriver.login_academicSystem(driver, 'y')
 
+            if pageName in [0, 1, 2]:
                 gzhuEd.academicSystem_loginStatus(driver)
 
-            if pageName in [0, 1, 2]:
                 gzhuWebdriver.save_cookie(driver)
 
             break
@@ -68,6 +68,7 @@ def access_maintainCookie(student_number, password):
                 else:
                     gzhuEd.academicSystem_loginStatus(driver)
 
+            windows = driver.window_handles
             driver.switch_to.window(windows[-1])
 
             gzhuWebdriver.save_cookie(driver)

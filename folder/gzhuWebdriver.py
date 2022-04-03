@@ -106,7 +106,7 @@ class gzhu_edgedriver:
                 login_mark = driver.execute_script(
                     "document.getElementsByClassName('h-navigation-header')")
 
-                if len(login_mark) == 0:
+                if login_mark == None:
                     self.login_portal(driver)
                 else:
                     break
@@ -114,10 +114,12 @@ class gzhu_edgedriver:
                 login_mark = driver.execute_script(
                     "document.getElementsByClassName('h-navigation-header')")
 
-                if len(login_mark) != 0:
+                if login_mark != None:
                     break
 
-            except:
+            except Exception as e:
+                print(e)
+
                 continue
 
     def academicSystem_loginStatus(self, driver):
@@ -138,7 +140,7 @@ class gzhu_edgedriver:
                 logout_mark = driver.execute_script(
                     "document.getElementsByClassName('img-responsive')")
 
-                if len(logout_mark) != 0:
+                if logout_mark != None:
                     driver.close()
 
                     windows = driver.windows_handles
@@ -159,10 +161,12 @@ class gzhu_edgedriver:
                 logout_mark = driver.execute_script(
                     "document.getElementsByClassName('img-responsive')")
 
-                if len(logout_mark) == 0:
+                if logout_mark == None:
                     break
 
-            except:
+            except Exception as e:
+                print(e)
+
                 continue
 
 
@@ -198,8 +202,7 @@ def login_academicSystem(driver, brief="n"):
 
     else:
         driver.execute_script(
-            "window.open('http://jwxt.gzhu.edu.cn/jwglxt/xtgl/login_slogin.html')"
-        )
+            "window.open('http://jwxt.gzhu.edu.cn/sso/driot4login')")
 
     title = driver.title
     if title == '融合门户':
