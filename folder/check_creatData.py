@@ -1,7 +1,6 @@
 import os
 
-import gzhuWebdriver
-import studentNumber_password
+from . import gzhuWebdriver, studentNumber_password
 
 
 def check_creatData():

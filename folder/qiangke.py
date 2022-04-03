@@ -5,7 +5,7 @@ import time
 
 from requests.cookies import RequestsCookieJar
 
-import submit_data
+from . import submit_data
 
 
 def qiangke(student_number, delay):

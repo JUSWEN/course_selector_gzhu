@@ -4,7 +4,9 @@
 # 本人不对因使用此脚本而产生的任何后果或损失负责
 
 from multiprocessing import Process, freeze_support
-from folder import studentNumber_password, check_creatData, qiangke, access_maintainCookie
+
+from folder import (access_maintainCookie, check_creatData, qiangke,
+                    studentNumber_password)
 
 if __name__ == "__main__":
     freeze_support()
