@@ -51,7 +51,7 @@ def access_maintainCookie(student_number, password):
     while True:
         try:
             if retry == 1:
-                driver.refresh()
+                time.sleep(5)
 
                 retry = 0
 
@@ -67,7 +67,7 @@ def access_maintainCookie(student_number, password):
             driver.switch_to.window(windows[-1])
 
             try:
-                WebDriverWait(driver, 10, 0.5).until(
+                WebDriverWait(driver, 30).until(
                     ec.visibility_of_element_located(
                         (By.XPATH, '//span[@id="xtmc"]')))
             except:
