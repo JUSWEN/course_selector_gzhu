@@ -187,7 +187,11 @@ def login_academicSystem(driver, brief="n"):
             print('融合门户登录成功！')
 
         try:
-            driver.find_element(By.XPATH, '//a[@title="教务系统"]/img').click()
+            xpath = "//a[@title='教务系统']/img"
+            driver.execute_script(
+                f'document.evaluate("{xpath}", document).iterateNext().click();'
+            )
+
         except Exception as e:
             print(e)
 
