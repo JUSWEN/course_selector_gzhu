@@ -75,9 +75,12 @@ class gzhu_edgedriver:
         except:
             pass
 
-        driver.find_element(By.ID, 'un').send_keys(student_number)
-        driver.find_element(By.ID, 'pd').send_keys(password)
-        driver.find_element(By.ID, 'index_login_btn').click()
+        driver.execute_script(
+            f"document.getElementById('un').value='{student_number}'")
+        driver.execute_script(
+            f"document.getElementById('pd').value='{password}'")
+        driver.execute_script(
+            "document.getElementById('index_login_btn').click()")
 
         try:
             WebDriverWait(driver, 30).until(
