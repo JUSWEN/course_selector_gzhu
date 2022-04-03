@@ -1,9 +1,5 @@
 import time
 
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as ec
-from selenium.webdriver.support.wait import WebDriverWait
-
 from . import gzhuWebdriver
 
 
@@ -15,7 +11,7 @@ def access_maintainCookie(student_number, password):
     while True:
         gzhuEd = gzhuWebdriver.gzhu_edgedriver(student_number, password)
 
-        driver = gzhuEd.start_edgedriver('n')
+        driver = gzhuEd.start_edgedriver()
 
         try:
             driver.refresh()
@@ -68,7 +64,6 @@ def access_maintainCookie(student_number, password):
                 else:
                     gzhuEd.academicSystem_loginStatus(driver)
 
-            windows = driver.window_handles
             driver.switch_to.window(windows[-1])
 
             gzhuWebdriver.save_cookie(driver)

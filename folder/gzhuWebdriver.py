@@ -1,9 +1,7 @@
 import json
-from lib2to3.pgen2 import driver
 import re
-from turtle import title
-import urllib.parse
 import sys
+import urllib.parse
 
 import selenium.webdriver
 from selenium.webdriver.common.action_chains import ActionChains
@@ -99,12 +97,13 @@ class gzhu_edgedriver:
                 try:
                     WebDriverWait(driver, 30).until(
                         ec.visibility_of_element_located(
-                            (By.XPATH, '//a[@title="教务系统"]/img')))
+                            (By.XPATH, "//a[@title='教务系统']/img")))
                 except:
                     pass
 
                 login_mark = driver.execute_script(
-                    "document.getElementsByClassName('h-navigation-header')")
+                    "return document.getElementsByClassName('h-navigation-header')[0]"
+                )
 
                 if login_mark == None:
                     self.login_portal(driver)
@@ -112,7 +111,8 @@ class gzhu_edgedriver:
                     break
 
                 login_mark = driver.execute_script(
-                    "document.getElementsByClassName('h-navigation-header')")
+                    "return document.getElementsByClassName('h-navigation-header')[0]"
+                )
 
                 if login_mark != None:
                     break
@@ -138,7 +138,8 @@ class gzhu_edgedriver:
                     pass
 
                 logout_mark = driver.execute_script(
-                    "document.getElementsByClassName('img-responsive')")
+                    "return document.getElementsByClassName('img-responsive')[0]"
+                )
 
                 if logout_mark != None:
                     driver.close()
@@ -159,7 +160,8 @@ class gzhu_edgedriver:
                     break
 
                 logout_mark = driver.execute_script(
-                    "document.getElementsByClassName('img-responsive')")
+                    "return document.getElementsByClassName('img-responsive')[0]"
+                )
 
                 if logout_mark == None:
                     break
@@ -200,14 +202,14 @@ def login_academicSystem(driver, brief="n"):
 
             sys.exit(0)
 
+        title = driver.title
+        if title == '融合门户':
+            windows = driver.window_handles
+            driver.switch_to.window(windows[-1])
+
     else:
         driver.execute_script(
             "window.open('http://jwxt.gzhu.edu.cn/sso/driot4login')")
-
-    title = driver.title
-    if title == '融合门户':
-        windows = driver.window_handles
-        driver.switch_to.window(windows[-1])
 
     try:
         WebDriverWait(driver, 30).until(
