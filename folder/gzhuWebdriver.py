@@ -109,7 +109,8 @@ def login_academicSystem(driver, brief="n"):
 
             if len(check) == 0:
                 print('融合门户登录失败！')
-                print('请检查学号密码是否输入正确！\n程序结束')
+                print('请检查学号密码是否输入正确！')
+                print('并重新运行程序！')
 
             else:
                 print('unknown error!')
@@ -121,9 +122,7 @@ def login_academicSystem(driver, brief="n"):
             sys.exit(0)
 
     else:
-        driver.find_element(
-            By.XPATH,
-            '//img[@src="/up/resource/image/home/gz/app/jwxt.png"]').click()
+        driver.get("http://jwxt.gzhu.edu.cn/jwglxt/xtgl/login_slogin.html")
 
     title = driver.title
     if title == '融合门户':
