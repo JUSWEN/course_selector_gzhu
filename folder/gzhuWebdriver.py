@@ -25,9 +25,10 @@ class gzhu_edgedriver:
 
         self.password = password
 
-    def start_edgedriver(self, headless="y"):
+    def start_edgedriver(self, headless='y', eager='y'):
         """
-        If and only if headless == "y", the browser is headless
+        If and only if headless == "y", the browser is headless\n
+        If and only if eager == 'y', page load strategy is eager
         """
         options = Options()
 
@@ -39,6 +40,9 @@ class gzhu_edgedriver:
 
         if headless == 'y':
             optionsList.append("--headless")
+
+        if eager == 'y':
+            options.page_load_strategy = 'eager'
 
         for option in optionsList:
             options.add_argument(option)
@@ -63,8 +67,11 @@ class gzhu_edgedriver:
         )
 
         try:
-            WebDriverWait(driver, 10, 0.5).until(
-                ec.visibility_of_element_located((By.ID, 'un')))
+            # 智能等待
+            WebDriverWait(driver, 30).until(
+                ec.visibility_of_element_located(
+                    (By.XPATH,
+                     "//div[@class='robot-mag-win small-big-small']")))
         except:
             pass
 
@@ -73,7 +80,7 @@ class gzhu_edgedriver:
         driver.find_element(By.ID, 'index_login_btn').click()
 
         try:
-            WebDriverWait(driver, 10, 0.5).until(
+            WebDriverWait(driver, 30).until(
                 ec.visibility_of_element_located(
                     (By.XPATH,
                      '//img[@src="/up/resource/image/home/gz/app/jwxt.png"]')))
@@ -107,7 +114,7 @@ def login_academicSystem(driver, brief="n"):
             else:
                 print('unknown error!')
                 print('已成功登录融合门户，但不能找到教务系统图标按钮！')
-                print('重新运行程序或重启电脑或许能解决问题！')
+                print('请重新运行程序！')
 
             input()
 
@@ -124,7 +131,7 @@ def login_academicSystem(driver, brief="n"):
         driver.switch_to.window(windows[-1])
 
     try:
-        WebDriverWait(driver, 10, 0.5).until(
+        WebDriverWait(driver, 30).until(
             ec.visibility_of_element_located((By.XPATH, '//span[@id="xtmc"]')))
     except:
         pass
@@ -169,7 +176,7 @@ def select_courses(driver):
                 driver.switch_to.window(windows[-1])
 
             try:
-                WebDriverWait(driver, 10, 0.5).until(
+                WebDriverWait(driver, 30).until(
                     ec.visibility_of_element_located(
                         (By.XPATH, '//div[@class="navbar-header"]')))
             except:
@@ -189,7 +196,7 @@ def select_courses(driver):
         kch_id = course_name.split(')')[0][1:]
 
         try:
-            WebDriverWait(driver, 10, 0.5).until(
+            WebDriverWait(driver, 30).until(
                 ec.visibility_of_element_located(
                     (By.XPATH, "//button[@name='reset']")))
         except:
@@ -231,7 +238,7 @@ def select_courses(driver):
         driver.find_element(By.XPATH, '//button[@name="query"]').click()
 
         try:
-            WebDriverWait(driver, 10, 0.5).until(
+            WebDriverWait(driver, 30).until(
                 ec.visibility_of_element_located(
                     (By.XPATH, "//tr[1]/td[@class='jsxmzc']")))
         except:

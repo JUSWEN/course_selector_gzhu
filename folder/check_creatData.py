@@ -12,7 +12,7 @@ def check_creatData():
 
         gzhuEd = gzhuWebdriver.gzhu_edgedriver(student_number, password)
 
-        driver = gzhuEd.start_edgedriver()
+        driver = gzhuEd.start_edgedriver(eager='n')
 
         gzhuEd.login_portal(driver)
 
