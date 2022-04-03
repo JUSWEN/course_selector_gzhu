@@ -1,6 +1,7 @@
 import json
 import re
 import urllib.parse
+import sys
 
 import selenium.webdriver
 from selenium.webdriver.common.action_chains import ActionChains
@@ -12,51 +13,113 @@ from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
 
 
-def wd_login(xuhao, mima):
-    options = Options()
-    optionsList = [
-        "--headless", "--enable-javascript", "start-maximized",
-        "--disable-gpu", "--disable-extensions", "--no-sandbox",
-        "--disable-browser-side-navigation", "--disable-dev-shm-usage"
-    ]
+class gzhu_edgedriver:
 
-    for option in optionsList:
-        options.add_argument(option)
+    def __init__(self, student_number, password):
+        """
+        Args:
+            student_number (str)\n
+            password (str)
+        """
+        self.student_number = student_number
 
-    options.add_experimental_option(
-        "excludeSwitches",
-        ["ignore-certificate-errors", "enable-automation", "enable-logging"])
+        self.password = password
 
-    driver = selenium.webdriver.Edge(service=Service(
-        EdgeChromiumDriverManager().install()),
-                                     options=options)
+    def start_edgedriver(self, headless="y"):
+        """
+        If and only if headless == "y", the browser is headless
+        """
+        options = Options()
 
-    driver.get(
-        f'https://newcas.gzhu.edu.cn/cas/login?service=https%3A%2F%2Fnewmy.gzhu.edu.cn%2Fup%2Fview%3Fm%3Dup'
-    )
+        optionsList = [
+            "--enable-javascript", "start-maximized", "--disable-gpu",
+            "--disable-extensions", "--no-sandbox",
+            "--disable-browser-side-navigation", "--disable-dev-shm-usage"
+        ]
 
-    try:
-        # 智能等待
-        WebDriverWait(driver, 10, 0.5).until(
-            ec.visibility_of_element_located((By.ID, 'un')))
-    except:
-        pass
+        if headless == 'y':
+            optionsList.append("--headless")
 
-    driver.find_element(By.ID, 'un').send_keys(xuhao)
-    driver.find_element(By.ID, 'pd').send_keys(mima)
-    driver.find_element(By.ID, 'index_login_btn').click()
+        for option in optionsList:
+            options.add_argument(option)
 
-    try:
-        WebDriverWait(driver, 10, 0.5).until(
-            ec.visibility_of_element_located(
-                (By.XPATH,
-                 '//img[@src="/up/resource/image/home/gz/app/jwxt.png"]')))
-    except:
-        pass
+        options.add_experimental_option("excludeSwitches", [
+            "ignore-certificate-errors", "enable-automation", "enable-logging"
+        ])
 
-    # 第一次yield
-    yield driver
+        driver = selenium.webdriver.Edge(service=Service(
+            EdgeChromiumDriverManager().install()),
+                                         options=options)
 
+        return driver
+
+    def login_portal(self, driver):
+        """从统一身份认证页面登陆融合门户"""
+        student_number = self.student_number
+        password = self.password
+
+        driver.get(
+            f'https://newcas.gzhu.edu.cn/cas/login?service=https%3A%2F%2Fnewmy.gzhu.edu.cn%2Fup%2Fview%3Fm%3Dup'
+        )
+
+        try:
+            WebDriverWait(driver, 10, 0.5).until(
+                ec.visibility_of_element_located((By.ID, 'un')))
+        except:
+            pass
+
+        driver.find_element(By.ID, 'un').send_keys(student_number)
+        driver.find_element(By.ID, 'pd').send_keys(password)
+        driver.find_element(By.ID, 'index_login_btn').click()
+
+        try:
+            WebDriverWait(driver, 10, 0.5).until(
+                ec.visibility_of_element_located(
+                    (By.XPATH,
+                     '//img[@src="/up/resource/image/home/gz/app/jwxt.png"]')))
+        except:
+            pass
+
+
+def login_academicSystem(driver, brief="n"):
+    '''
+    登陆教务系统\n
+    If and only if brief == "n", check login status
+    '''
+    if brief == 'n':
+        page = driver.page_source
+        check = re.findall('融合门户', page)
+        if len(check) != 0:
+            print('融合门户登录成功！')
+
+        try:
+            driver.find_element(
+                By.XPATH,
+                '//img[@src="/up/resource/image/home/gz/app/jwxt.png"]').click(
+                )
+        except Exception as e:
+            print(e)
+
+            if len(check) == 0:
+                print('融合门户登录失败！')
+                print('请检查学号密码是否输入正确！\n程序结束')
+
+            else:
+                print('unknown error!')
+                print('已成功登录融合门户，但不能找到教务系统图标按钮！')
+                print('重新运行程序或重启电脑或许能解决问题！')
+
+            input()
+
+            sys.exit(0)
+    else:
+        driver.find_element(
+            By.XPATH,
+            '//img[@src="/up/resource/image/home/gz/app/jwxt.png"]').click()
+
+
+def switchto_academicSystem(driver):
+    """切换到教务系统标签页"""
     title = driver.title
     if title == '融合门户':
         windows = driver.window_handles
@@ -68,6 +131,9 @@ def wd_login(xuhao, mima):
     except:
         pass
 
+
+def save_cookie(driver):
+    '''保存Cookie到./cookies.txt'''
     # 得到dict的cookie
     dictcookies = driver.get_cookies()
     # json.dumps和json.loads分别是将字典转换为字符串和将字符串转换为字典的方法
@@ -80,9 +146,9 @@ def wd_login(xuhao, mima):
 
     print('cookies updated')
 
-    # 第二次yield
-    yield driver
 
+def select_courses(driver):
+    '''选课'''
     # j表示data表单生成成功,0为假,1为真。
     j = 0
 
@@ -113,8 +179,8 @@ def wd_login(xuhao, mima):
 
             source = driver.page_source
             # 通过页面信息判断是否处于选课阶段
-            judge = re.findall("当前不属于选课阶段", source)
-            if len(judge) != 0:
+            check = re.findall("当前不属于选课阶段", source)
+            if len(check) != 0:
                 break
 
         # 通过课程名称进行选课操作
@@ -291,14 +357,17 @@ def wd_login(xuhao, mima):
 
         print('选课内容添加成功！')
 
-        judge_break = input('是否继续添加选课内容[y/n]?:')
-        if judge_break == 'n':
+        check_break = input('是否继续添加选课内容[y/n]?:')
+        if check_break == 'n':
             break
 
     driver.quit()
 
-    # 第三次yield
     if j == 1:
-        yield 'data表单准备完成,抢课信息录入完毕。'
+        print('data表单准备完成,抢课信息录入完毕。')
     elif j == 0:
-        yield '选课系统未开放,无法录入抢课信息，请在选课系统开放后再运行此脚本'
+        print('选课系统未开放,无法录入抢课信息，请在选课系统开放后再运行此脚本')
+
+        input()
+
+        sys.exit()

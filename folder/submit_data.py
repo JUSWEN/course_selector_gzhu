@@ -3,17 +3,17 @@ import asyncio
 import aiohttp
 
 
-async def submit_package(xuhao, data, jar):
+async def submit_data(student_number, data, jar):
     headers = {
         "User-Agent":
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36 Edg/96.0.1054.62 ",
         "refer":
-        f"http://jwxt.gzhu.edu.cn/jwglxt/xsxk/zzxkyzb_cxZzxkYzbIndex.htmlgnmkdm=N253512&layout=default&su={xuhao}"
+        f"http://jwxt.gzhu.edu.cn/jwglxt/xsxk/zzxkyzb_cxZzxkYzbIndex.htmlgnmkdm=N253512&layout=default&su={student_number}"
     }
 
-    url = f"http://jwxt.gzhu.edu.cn/jwglxt/xsxk/zzxkyzbjk_xkBcZyZzxkYzb.html?gnmkdm=N253512&su={xuhao}"
+    url = f"http://jwxt.gzhu.edu.cn/jwglxt/xsxk/zzxkyzbjk_xkBcZyZzxkYzb.html?gnmkdm=N253512&su={student_number}"
 
-    params = {"gnmkdm": "N253512", "su": xuhao}
+    params = {"gnmkdm": "N253512", "su": student_number}
 
     try:
         # ClientSession别忘了跟()
@@ -34,7 +34,7 @@ async def submit_package(xuhao, data, jar):
                     await asyncio.sleep(5)
 
                     # 选课服务器暂未开放，重新运行程序发送表单
-                    await submit_package(xuhao, data, jar)
+                    await submit_data(student_number, data, jar)
 
                 elif contant1 == '出现未知异常，':
                     print('服务器出现未知异常')
@@ -42,7 +42,7 @@ async def submit_package(xuhao, data, jar):
                     await asyncio.sleep(5)
 
                     # 服务器出现未知异常，重新运行程序发送表单
-                    await submit_package(xuhao, data, jar)
+                    await submit_data(student_number, data, jar)
 
                 else:
                     contant = contant[-4:]
@@ -70,11 +70,11 @@ async def submit_package(xuhao, data, jar):
                         await asyncio.sleep(5)
                         # 未知内容，重新运行程序发送表单
 
-                        await submit_package(xuhao, data, jar)
+                        await submit_data(student_number, data, jar)
 
     except asyncio.TimeoutError:
         # 超时服务器仍未返回值，则重新运行程序发送表单
-        await submit_package(xuhao, data, jar)
+        await submit_data(student_number, data, jar)
 
     except Exception as e:
         print(e)
@@ -82,4 +82,4 @@ async def submit_package(xuhao, data, jar):
         await asyncio.sleep(5)
         # 未知错误，重新运行程序发送表单
 
-        await submit_package(xuhao, data, jar)
+        await submit_data(student_number, data, jar)

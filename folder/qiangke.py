@@ -5,10 +5,10 @@ import time
 
 from requests.cookies import RequestsCookieJar
 
-from . import submit_package
+import submit_data
 
 
-def qiangke(xuhao, delay):
+def qiangke(student_number, delay):
     time.sleep(delay)
 
     print('开始抢课！')
@@ -47,7 +47,7 @@ def qiangke(xuhao, delay):
             while i < len(datas) - 1:
                 data = eval(datas[i])
 
-                coroutine = submit_package.submit_package(xuhao, data, jar)
+                coroutine = submit_data.submit_data(student_number, data, jar)
                 task = asyncio.ensure_future(coroutine)
                 tasks.append(task)
 
