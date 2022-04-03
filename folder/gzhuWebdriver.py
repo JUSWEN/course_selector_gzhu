@@ -112,14 +112,12 @@ def login_academicSystem(driver, brief="n"):
             input()
 
             sys.exit(0)
+
     else:
         driver.find_element(
             By.XPATH,
             '//img[@src="/up/resource/image/home/gz/app/jwxt.png"]').click()
 
-
-def switchto_academicSystem(driver):
-    """切换到教务系统标签页"""
     title = driver.title
     if title == '融合门户':
         windows = driver.window_handles
@@ -148,7 +146,7 @@ def save_cookie(driver):
 
 
 def select_courses(driver):
-    '''选课'''
+    '''自主选课'''
     # j表示data表单生成成功,0为假,1为真。
     j = 0
 

@@ -21,8 +21,6 @@ def check_creatData():
 
         studentNumber_password.save(student_number, password)
 
-        gzhuWebdriver.switchto_academicSystem(driver)
-
         gzhuWebdriver.save_cookie(driver)
 
         gzhuWebdriver.select_courses(driver)

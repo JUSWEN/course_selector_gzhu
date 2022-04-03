@@ -18,8 +18,6 @@ def access_maintainCookie(student_number, password):
 
             gzhuWebdriver.login_academicSystem(driver, "y")
 
-            gzhuWebdriver.switchto_academicSystem(driver)
-
             gzhuWebdriver.save_cookie(driver)
 
             break
