@@ -15,7 +15,7 @@ def access_maintainCookie(student_number, password):
     while True:
         gzhuEd = gzhuWebdriver.gzhu_edgedriver(student_number, password)
 
-        driver = gzhuEd.start_edgedriver()
+        driver = gzhuEd.start_edgedriver('n')
 
         try:
             driver.refresh()
@@ -34,6 +34,8 @@ def access_maintainCookie(student_number, password):
             if pageName in [0, 1]:
                 gzhuWebdriver.login_academicSystem(driver, 'y')
 
+                gzhuEd.academicSystem_loginStatus(driver)
+
             if pageName in [0, 1, 2]:
                 gzhuWebdriver.save_cookie(driver)
 
@@ -51,8 +53,6 @@ def access_maintainCookie(student_number, password):
     while True:
         try:
             if retry == 1:
-                time.sleep(5)
-
                 retry = 0
 
             else:
@@ -62,16 +62,13 @@ def access_maintainCookie(student_number, password):
             for window in windows:
                 driver.switch_to.window(window)
 
-                driver.refresh()
+                title = driver.title
+                if title == '融合门户':
+                    gzhuEd.portal_loginStatus(driver)
+                else:
+                    gzhuEd.academicSystem_loginStatus(driver)
 
             driver.switch_to.window(windows[-1])
-
-            try:
-                WebDriverWait(driver, 30).until(
-                    ec.visibility_of_element_located(
-                        (By.XPATH, '//span[@id="xtmc"]')))
-            except:
-                pass
 
             gzhuWebdriver.save_cookie(driver)
 

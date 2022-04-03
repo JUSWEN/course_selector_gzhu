@@ -1,5 +1,7 @@
 import json
+from lib2to3.pgen2 import driver
 import re
+from turtle import title
 import urllib.parse
 import sys
 
@@ -82,15 +84,91 @@ class gzhu_edgedriver:
         try:
             WebDriverWait(driver, 30).until(
                 ec.visibility_of_element_located(
-                    (By.XPATH,
-                     '//img[@src="/up/resource/image/home/gz/app/jwxt.png"]')))
+                    (By.XPATH, '//a[@title="教务系统"]/img')))
         except:
             pass
+
+    def portal_loginStatus(self, driver):
+        '''
+        检查融合门户登录状态，并在注销后进行登陆
+        '''
+        while True:
+            try:
+                driver.refresh()
+
+                try:
+                    WebDriverWait(driver, 30).until(
+                        ec.visibility_of_element_located(
+                            (By.XPATH, '//a[@title="教务系统"]/img')))
+                except:
+                    pass
+
+                login_mark = driver.execute_script(
+                    "document.getElementsByClassName('h-navigation-header')")
+
+                if len(login_mark) == 0:
+                    self.login_portal(driver)
+                else:
+                    break
+
+                login_mark = driver.execute_script(
+                    "document.getElementsByClassName('h-navigation-header')")
+
+                if len(login_mark) != 0:
+                    break
+
+            except:
+                continue
+
+    def academicSystem_loginStatus(self, driver):
+        '''
+        检查教务系统登录状态，并在注销后进行登陆
+        '''
+        while True:
+            try:
+                driver.refresh()
+
+                try:
+                    WebDriverWait(driver, 30).until(
+                        ec.visibility_of_element_located(
+                            (By.XPATH, '//span[@id="xtmc"]')))
+                except:
+                    pass
+
+                logout_mark = driver.execute_script(
+                    "document.getElementsByClassName('img-responsive')")
+
+                if len(logout_mark) != 0:
+                    driver.close()
+
+                    windows = driver.windows_handles
+                    for window in windows:
+                        driver.switch_to.window(window)
+
+                        title = driver.title
+                        if title == "融合门户":
+                            break
+
+                    self.portal_loginStatus(driver)
+
+                    login_academicSystem(driver, "y")
+
+                else:
+                    break
+
+                logout_mark = driver.execute_script(
+                    "document.getElementsByClassName('img-responsive')")
+
+                if len(logout_mark) == 0:
+                    break
+
+            except:
+                continue
 
 
 def login_academicSystem(driver, brief="n"):
     '''
-    登陆教务系统\n
+    登陆教务系统并检查融合门户登录状态\n
     If and only if brief == "n", check login status
     '''
     if brief == 'n':
@@ -100,10 +178,7 @@ def login_academicSystem(driver, brief="n"):
             print('融合门户登录成功！')
 
         try:
-            driver.find_element(
-                By.XPATH,
-                '//img[@src="/up/resource/image/home/gz/app/jwxt.png"]').click(
-                )
+            driver.find_element(By.XPATH, '//a[@title="教务系统"]/img').click()
         except Exception as e:
             print(e)
 
@@ -122,7 +197,9 @@ def login_academicSystem(driver, brief="n"):
             sys.exit(0)
 
     else:
-        driver.get("http://jwxt.gzhu.edu.cn/jwglxt/xtgl/login_slogin.html")
+        driver.execute_script(
+            "window.open('http://jwxt.gzhu.edu.cn/jwglxt/xtgl/login_slogin.html')"
+        )
 
     title = driver.title
     if title == '融合门户':
