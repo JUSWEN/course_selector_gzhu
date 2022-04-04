@@ -136,7 +136,7 @@ class gzhu_edgedriver:
                 try:
                     WebDriverWait(driver, 30).until(
                         ec.visibility_of_element_located(
-                            (By.XPATH, '//span[@id="xtmc"]')))
+                            (By.XPATH, '//img[@class="media-object"]')))
                 except:
                     pass
 
@@ -220,7 +220,8 @@ def login_academicSystem(driver, brief="n"):
 
     try:
         WebDriverWait(driver, 30).until(
-            ec.visibility_of_element_located((By.XPATH, '//span[@id="xtmc"]')))
+            ec.visibility_of_element_located(
+                (By.XPATH, '//img[@class="media-object"]')))
     except:
         pass
 
