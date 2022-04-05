@@ -18,10 +18,9 @@ def access():
     else:
         with open(studentNumber_path, 'r') as file:
             student_number = file.read()
-            file.close()
+
         with open(password_path, 'r') as file:
             password = file.read()
-            file.close()
 
     return student_number, password
 
@@ -30,7 +29,6 @@ def save(student_number, password):
     '''保存学号密码'''
     with open(studentNumber_path, 'w') as file:
         file.write(student_number)
-        file.close()
+
     with open(password_path, 'w') as file:
         file.write(password)
-        file.close()

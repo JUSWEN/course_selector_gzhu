@@ -236,7 +236,6 @@ def save_cookie(driver):
     with open('./cookies.txt', 'w') as file:
         # 将字符串cookie保存至txt文件中
         file.write(jsoncookies)
-        file.close()
 
     print('cookies updated')
 
@@ -441,7 +440,6 @@ def select_courses(driver):
         with open('./data.txt', 'a') as data_file:
             # dict类型的内容不能用write函数
             data_file.write(str(data) + '\n')
-            data_file.close()
 
         # j=1 表示抢课信息录入成功
         j = 1

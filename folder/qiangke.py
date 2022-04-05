@@ -26,14 +26,14 @@ def qiangke(student_number, delay):
 
     with open('./cookies.txt', 'r') as file:
         listcookies = json.loads(file.read())
-        file.close()
+
     jar = RequestsCookieJar()
     jar.set(listcookies[0]['name'], listcookies[0]['value'])
 
     # 读取保存的data表单,并通过async异步的方式发送
     with open('./data.txt', 'r') as data_file:
         tobeprocessed_data = data_file.read()
-        data_file.close()
+
     datas = tobeprocessed_data.split('\n')
 
     while True:
@@ -70,7 +70,7 @@ def qiangke(student_number, delay):
         if i == 1:
             with open('./cookies.txt', 'r') as file:
                 listcookies = json.loads(file.read())
-                file.close()
+
             jar = RequestsCookieJar()
             jar.set(listcookies[0]['name'], listcookies[0]['value'])
 
