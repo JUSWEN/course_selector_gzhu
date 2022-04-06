@@ -12,6 +12,7 @@ from selenium.webdriver.edge.service import Service
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
+from selenium.common.exceptions import TimeoutException
 
 
 class gzhu_edgedriver:
@@ -60,6 +61,8 @@ class gzhu_edgedriver:
 
     def login_portal(self, driver):
         """从统一身份认证页面登陆融合门户"""
+        wdwait = WebDriverWait(driver, 30, ignored_exceptions=TimeoutException)
+
         student_number = self.student_number
         password = self.password
 
@@ -67,7 +70,7 @@ class gzhu_edgedriver:
             f'https://newcas.gzhu.edu.cn/cas/login?service=https%3A%2F%2Fnewmy.gzhu.edu.cn%2Fup%2Fview%3Fm%3Dup'
         )
 
-        WebDriverWait(driver, 30).until(
+        wdwait.until(
             EC.visibility_of_element_located(
                 (By.XPATH, "//div[@class='robot-mag-win small-big-small']")))
 
@@ -78,7 +81,7 @@ class gzhu_edgedriver:
         driver.execute_script(
             "document.getElementById('index_login_btn').click()")
 
-        WebDriverWait(driver, 30).until(
+        wdwait.until(
             EC.visibility_of_element_located(
                 (By.XPATH, '//a[@title="教务系统"]/img')))
 
@@ -86,11 +89,13 @@ class gzhu_edgedriver:
         '''
         检查融合门户登录状态，并在注销后进行登陆
         '''
+        wdwait = WebDriverWait(driver, 30, ignored_exceptions=TimeoutException)
+
         while True:
             try:
                 driver.refresh()
 
-                WebDriverWait(driver, 30).until(
+                wdwait.until(
                     EC.visibility_of_element_located(
                         (By.XPATH, "//a[@title='教务系统']/img")))
 
@@ -119,11 +124,13 @@ class gzhu_edgedriver:
         '''
         检查教务系统登录状态，并在注销后进行登陆
         '''
+        wdwait = WebDriverWait(driver, 30, ignored_exceptions=TimeoutException)
+
         while True:
             try:
                 driver.refresh()
 
-                WebDriverWait(driver, 30).until(
+                wdwait.until(
                     EC.visibility_of_element_located(
                         (By.XPATH, '//img[@class="media-object"]')))
 
@@ -167,6 +174,8 @@ def login_academicSystem(driver, brief="n"):
     登陆教务系统并检查融合门户登录状态\n
     If and only if brief == "n", check login status
     '''
+    wdwait = WebDriverWait(driver, 30, ignored_exceptions=TimeoutException)
+
     if brief == 'n':
         page = driver.page_source
         check = re.findall('融合门户', page)
@@ -202,7 +211,7 @@ def login_academicSystem(driver, brief="n"):
         driver.execute_script(
             "window.open('http://jwxt.gzhu.edu.cn/sso/driot4login')")
 
-    WebDriverWait(driver, 30, ignored_exceptions).until(
+    wdwait.until(
         EC.visibility_of_element_located(
             (By.XPATH, '//img[@class="media-object"]')))
 
@@ -223,6 +232,8 @@ def save_cookie(driver):
 
 def select_courses(driver):
     '''自主选课'''
+    wdwait = WebDriverWait(driver, 30, ignored_exceptions=TimeoutException)
+
     # j表示data表单生成成功,0为假,1为真。
     j = 0
 
@@ -245,7 +256,7 @@ def select_courses(driver):
                 windows = driver.window_handles
                 driver.switch_to.window(windows[-1])
 
-            WebDriverWait(driver, 30).until(
+            wdwait.until(
                 EC.visibility_of_element_located(
                     (By.XPATH, '//div[@class="navbar-header"]')))
 
@@ -262,7 +273,7 @@ def select_courses(driver):
         # kch_id为课程名称中的数字id，如：180111005
         kch_id = course_name.split(')')[0][1:]
 
-        WebDriverWait(driver, 30).until(
+        wdwait.until(
             EC.visibility_of_element_located(
                 (By.XPATH, "//button[@name='reset']"))).click()
 
@@ -297,7 +308,7 @@ def select_courses(driver):
 
         driver.find_element(By.XPATH, '//button[@name="query"]').click()
 
-        WebDriverWait(driver, 30).until(
+        wdwait.until(
             EC.visibility_of_element_located(
                 (By.XPATH, "//tr[1]/td[@class='jsxmzc']")))
 
