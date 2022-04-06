@@ -1,3 +1,4 @@
+import imp
 import json
 import re
 import sys
@@ -8,7 +9,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.edge.options import Options
 from selenium.webdriver.edge.service import Service
-from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
 
@@ -66,14 +67,9 @@ class gzhu_edgedriver:
             f'https://newcas.gzhu.edu.cn/cas/login?service=https%3A%2F%2Fnewmy.gzhu.edu.cn%2Fup%2Fview%3Fm%3Dup'
         )
 
-        try:
-            # 智能等待
-            WebDriverWait(driver, 30).until(
-                ec.visibility_of_element_located(
-                    (By.XPATH,
-                     "//div[@class='robot-mag-win small-big-small']")))
-        except:
-            pass
+        WebDriverWait(driver, 30).until(
+            EC.visibility_of_element_located(
+                (By.XPATH, "//div[@class='robot-mag-win small-big-small']")))
 
         driver.execute_script(
             f"document.getElementById('un').value='{student_number}'")
@@ -82,12 +78,9 @@ class gzhu_edgedriver:
         driver.execute_script(
             "document.getElementById('index_login_btn').click()")
 
-        try:
-            WebDriverWait(driver, 30).until(
-                ec.visibility_of_element_located(
-                    (By.XPATH, '//a[@title="教务系统"]/img')))
-        except:
-            pass
+        WebDriverWait(driver, 30).until(
+            EC.visibility_of_element_located(
+                (By.XPATH, '//a[@title="教务系统"]/img')))
 
     def portal_loginStatus(self, driver):
         '''
@@ -97,12 +90,9 @@ class gzhu_edgedriver:
             try:
                 driver.refresh()
 
-                try:
-                    WebDriverWait(driver, 30).until(
-                        ec.visibility_of_element_located(
-                            (By.XPATH, "//a[@title='教务系统']/img")))
-                except:
-                    pass
+                WebDriverWait(driver, 30).until(
+                    EC.visibility_of_element_located(
+                        (By.XPATH, "//a[@title='教务系统']/img")))
 
                 login_mark = driver.execute_script(
                     "return document.getElementsByClassName('h-navigation-header')[0]"
@@ -133,12 +123,9 @@ class gzhu_edgedriver:
             try:
                 driver.refresh()
 
-                try:
-                    WebDriverWait(driver, 30).until(
-                        ec.visibility_of_element_located(
-                            (By.XPATH, '//img[@class="media-object"]')))
-                except:
-                    pass
+                WebDriverWait(driver, 30).until(
+                    EC.visibility_of_element_located(
+                        (By.XPATH, '//img[@class="media-object"]')))
 
                 logout_mark = driver.execute_script(
                     "return document.getElementsByClassName('img-responsive')[0]"
@@ -187,10 +174,7 @@ def login_academicSystem(driver, brief="n"):
             print('融合门户登录成功！')
 
         try:
-            xpath = "//a[@title='教务系统']/img"
-            driver.execute_script(
-                f'document.evaluate("{xpath}", document).iterateNext().click();'
-            )
+            driver.find_element(By.XPATH, "//a[@title='教务系统']/img").click()
 
         except Exception as e:
             print(e)
@@ -218,12 +202,9 @@ def login_academicSystem(driver, brief="n"):
         driver.execute_script(
             "window.open('http://jwxt.gzhu.edu.cn/sso/driot4login')")
 
-    try:
-        WebDriverWait(driver, 30).until(
-            ec.visibility_of_element_located(
-                (By.XPATH, '//img[@class="media-object"]')))
-    except:
-        pass
+    WebDriverWait(driver, 30, ignored_exceptions).until(
+        EC.visibility_of_element_located(
+            (By.XPATH, '//img[@class="media-object"]')))
 
 
 def save_cookie(driver):
@@ -255,6 +236,7 @@ def select_courses(driver):
                 By.XPATH,
                 '//nav[@id="cdNav"]/ul[@class="nav navbar-nav"]/li[3]').click(
                 )
+
             driver.find_element(By.XPATH,
                                 '//a[contains(text(),"自主选课")]').click()
 
@@ -263,12 +245,9 @@ def select_courses(driver):
                 windows = driver.window_handles
                 driver.switch_to.window(windows[-1])
 
-            try:
-                WebDriverWait(driver, 30).until(
-                    ec.visibility_of_element_located(
-                        (By.XPATH, '//div[@class="navbar-header"]')))
-            except:
-                pass
+            WebDriverWait(driver, 30).until(
+                EC.visibility_of_element_located(
+                    (By.XPATH, '//div[@class="navbar-header"]')))
 
             source = driver.page_source
             # 通过页面信息判断是否处于选课阶段
@@ -283,16 +262,9 @@ def select_courses(driver):
         # kch_id为课程名称中的数字id，如：180111005
         kch_id = course_name.split(')')[0][1:]
 
-        try:
-            WebDriverWait(driver, 30).until(
-                ec.visibility_of_element_located(
-                    (By.XPATH, "//button[@name='reset']")))
-        except:
-            pass
-
-        # execute_script可以在selenium中执行js命令
-        driver.execute_script(
-            'document.getElementsByName("reset")[0].click();')
+        WebDriverWait(driver, 30).until(
+            EC.visibility_of_element_located(
+                (By.XPATH, "//button[@name='reset']"))).click()
 
         course_classification = int(
             input('请输入课程类别：\n主修课程请输入1，板块课体育请输入2，通识选修请输入3，其他特殊课程请输入4\n'))
@@ -325,12 +297,9 @@ def select_courses(driver):
 
         driver.find_element(By.XPATH, '//button[@name="query"]').click()
 
-        try:
-            WebDriverWait(driver, 30).until(
-                ec.visibility_of_element_located(
-                    (By.XPATH, "//tr[1]/td[@class='jsxmzc']")))
-        except:
-            pass
+        WebDriverWait(driver, 30).until(
+            EC.visibility_of_element_located(
+                (By.XPATH, "//tr[1]/td[@class='jsxmzc']")))
 
         # 网页源代码
         page = driver.page_source
@@ -369,10 +338,12 @@ def select_courses(driver):
         # jxbmc为教学班号，通过输入的教学班号找到对应的jxb_ids的内容
         jxbmc = input('请从上面的教学班中选择并复制粘贴要选择的教学班的教学班号'
                       '，示例:(2021-2022-2)-131800701-1\n注意！教学班号的左右不要留有空格！\n')
+
         tobeprocessed_jxb_ids = driver.find_element(
             By.XPATH,
             f'//td[@class="jxbmc" and contains(text(), "{jxbmc}")]/../td[@class="an"]/button'
         ).get_attribute('onclick')
+
         jxb_ids = tobeprocessed_jxb_ids.split(',')[1][1:-1]
 
         # 下面是求kcmc的函数
@@ -436,7 +407,6 @@ def select_courses(driver):
             "xkxqm": xkxqm
         }
 
-        # 存储data表单
         with open('./data.txt', 'a') as data_file:
             # dict类型的内容不能用write函数
             data_file.write(str(data) + '\n')
@@ -455,9 +425,9 @@ def select_courses(driver):
 
     driver.quit()
 
-    if j == 1:
+    if j:
         print('data表单准备完成,抢课信息录入完毕。')
-    elif j == 0:
+    else:
         print('选课系统未开放,无法录入抢课信息，请在选课系统开放后再运行此脚本')
 
         input()

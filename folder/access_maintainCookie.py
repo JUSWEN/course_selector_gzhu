@@ -41,14 +41,12 @@ def access_maintainCookie(student_number, password):
             print(e)
             print("cookie updating failed！")
 
-            continue
-
     # retry为0表示不需要重试，retry为1表示需要重试
     retry = 0
 
     while True:
         try:
-            if retry == 1:
+            if retry:
                 retry = 0
 
             else:
@@ -73,5 +71,3 @@ def access_maintainCookie(student_number, password):
             print('cookies updating failed!')
 
             retry = 1
-
-            continue
