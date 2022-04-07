@@ -1,10 +1,10 @@
-import imp
 import json
 import re
 import sys
 import urllib.parse
 
 import selenium.webdriver
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.edge.options import Options
@@ -12,7 +12,6 @@ from selenium.webdriver.edge.service import Service
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
-from selenium.common.exceptions import TimeoutException
 
 
 class gzhu_edgedriver:
@@ -75,20 +74,22 @@ class gzhu_edgedriver:
                 EC.visibility_of_element_located(
                     (By.XPATH,
                      "//div[@class='robot-mag-win small-big-small']")))
+
         except TimeoutException:
             pass
 
-        driver.execute_script(
-            f"document.getElementById('un').value='{student_number}'")
-        driver.execute_script(
-            f"document.getElementById('pd').value='{password}'")
-        driver.execute_script(
-            "document.getElementById('index_login_btn').click()")
+        for script in [
+                f"document.getElementById('un').value='{student_number}'",
+                f"document.getElementById('pd').value='{password}'",
+                "document.getElementById('index_login_btn').click()"
+        ]:
+            driver.execute_script(script)
 
         try:
             wdwait.until(
                 EC.visibility_of_element_located(
                     (By.XPATH, '//a[@title="教务系统"]/img')))
+
         except TimeoutException:
             pass
 
@@ -106,6 +107,7 @@ class gzhu_edgedriver:
                     wdwait.until(
                         EC.visibility_of_element_located(
                             (By.XPATH, "//a[@title='教务系统']/img")))
+
                 except TimeoutException:
                     pass
 
@@ -144,6 +146,7 @@ class gzhu_edgedriver:
                     wdwait.until(
                         EC.visibility_of_element_located(
                             (By.XPATH, '//img[@class="media-object"]')))
+
                 except TimeoutException:
                     pass
 
@@ -202,14 +205,14 @@ def login_academicSystem(driver, brief="n"):
             print(e)
 
             if len(check) == 0:
-                print('融合门户登录失败！')
-                print('请检查学号密码是否输入正确！')
-                print('并重新运行程序！')
+                print('融合门户登录失败！\n'
+                      '请检查学号密码是否输入正确！\n'
+                      '并重新运行程序！')
 
             else:
-                print('unknown error!')
-                print('已成功登录融合门户，但不能找到教务系统图标按钮！')
-                print('请重新运行程序！')
+                print('unknown error!\n'
+                      '已成功登录融合门户，但不能找到教务系统图标按钮！\n'
+                      '请重新运行程序！')
 
             input()
 
@@ -228,6 +231,7 @@ def login_academicSystem(driver, brief="n"):
         wdwait.until(
             EC.visibility_of_element_located(
                 (By.XPATH, '//img[@class="media-object"]')))
+
     except TimeoutException:
         pass
 
@@ -259,13 +263,11 @@ def select_courses(driver):
     while True:
         # 第一次循环，进入选课系统，并判断是否处于选课阶段
         if i == 1:
-            driver.find_element(
-                By.XPATH,
-                '//nav[@id="cdNav"]/ul[@class="nav navbar-nav"]/li[3]').click(
-                )
-
-            driver.find_element(By.XPATH,
-                                '//a[contains(text(),"自主选课")]').click()
+            for xpath in [
+                    '//nav[@id="cdNav"]/ul[@class="nav navbar-nav"]/li[3]',
+                    '//a[contains(text(),"自主选课")]'
+            ]:
+                driver.find_element(By.XPATH, xpath).click()
 
             title = driver.title
             if title == '广州大学教学综合信息服务平台':
@@ -276,6 +278,7 @@ def select_courses(driver):
                 wdwait.until(
                     EC.visibility_of_element_located(
                         (By.XPATH, '//div[@class="navbar-header"]')))
+
             except TimeoutException:
                 pass
 
@@ -286,8 +289,8 @@ def select_courses(driver):
                 break
 
         # 通过课程名称进行选课操作
-        course_name = input(
-            '请完整复制课程名并粘贴于此处,示例:(180111005)地理教学技能 - 1.0 学分\n注意！课程名的左右不要留有空格！\n')
+        course_name = input('请完整复制课程名并粘贴于此处,示例:(180111005)地理教学技能 - 1.0 学分\n'
+                            '注意！课程名的左右不要留有空格！\n')
 
         # kch_id为课程名称中的数字id，如：180111005
         kch_id = course_name.split(')')[0][1:]
@@ -296,6 +299,7 @@ def select_courses(driver):
             wdwait.until(
                 EC.visibility_of_element_located(
                     (By.XPATH, "//button[@name='reset']"))).click()
+
         except TimeoutException:
             pass
 
@@ -334,6 +338,7 @@ def select_courses(driver):
             wdwait.until(
                 EC.visibility_of_element_located(
                     (By.XPATH, "//tr[1]/td[@class='jsxmzc']")))
+
         except TimeoutException:
             pass
 
@@ -343,11 +348,11 @@ def select_courses(driver):
         jxb_numbers = re.findall('教学班个数.*">([1-9])</font>', page)
 
         if len(jxb_numbers) == 0:
-            print('未找到教学班信息，请检查信息是否输入正确')
-            print('教学班名称示例:(180111005)地理教学技能 - 1.0 学分\n')
-            print('注意！名称的左右不要留有空格！\n'
-                  '注意！请检查课程类别是否正确！')
-            print('请在程序提示后，重新输入信息！')
+            print('未找到教学班信息，请检查信息是否输入正确\n'
+                  '教学班名称示例:(180111005)地理教学技能 - 1.0 学分\n'
+                  '注意！名称的左右不要留有空格！\n'
+                  '注意！请检查课程类别是否正确！\n'
+                  '请在程序提示后，重新输入信息！')
 
             continue
 
@@ -372,8 +377,9 @@ def select_courses(driver):
             i += 1
 
         # jxbmc为教学班号，通过输入的教学班号找到对应的jxb_ids的内容
-        jxbmc = input('请从上面的教学班中选择并复制粘贴要选择的教学班的教学班号'
-                      '，示例:(2021-2022-2)-131800701-1\n注意！教学班号的左右不要留有空格！\n')
+        jxbmc = input('请从上面的教学班中选择并复制粘贴要选择的教学班的教学班号\n'
+                      '示例:(2021-2022-2)-131800701-1\n'
+                      '注意！教学班号的左右不要留有空格！\n')
 
         tobeprocessed_jxb_ids = driver.find_element(
             By.XPATH,
