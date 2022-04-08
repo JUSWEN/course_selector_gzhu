@@ -18,12 +18,12 @@ async def submit_data(student_number, data, jar):
     try:
         # ClientSession别忘了跟()
         async with aiohttp.ClientSession() as session:
-            async with await session.post(url,
-                                          headers=headers,
-                                          data=data,
-                                          params=params,
-                                          cookies=jar,
-                                          timeout=5) as response:
+            async with session.post(url,
+                                    headers=headers,
+                                    data=data,
+                                    params=params,
+                                    cookies=jar,
+                                    timeout=5) as response:
                 contant = await response.text()
 
                 contant1 = contant[8:15]
