@@ -56,15 +56,19 @@ def qiangke(student_number, delay):
             n += 1
 
         loop = asyncio.get_event_loop()
-        result_datas = loop.run_until_complete(asyncio.wait(tasks))
+        result_list = loop.run_until_complete(asyncio.wait(tasks))
 
         # i表示cookie失效，需要重新发包
         i = 0
 
-        for result_data in result_datas[0]:
-            if result_data.result() == 'cookie out of date':
-                i = 1
+        for results in result_list:
+            for result in results:
+                if result.result() == 'cookie out of date':
+                    i = 1
 
+                    break
+
+            if i == 1:
                 break
 
         if i == 1:
