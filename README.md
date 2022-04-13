@@ -6,14 +6,13 @@
 >
 > 本人不对因使用此脚本而产生的任何后果或损失负责
 >
-> 如果遇到bug请重新运行程序，若程序多次异常，可以提出Issue
+> 如果遇到bug请重新运行程序
 
 <!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
 
 <!-- code_chunk_output -->
 
 - [广州大学gzhu抢课脚本](#广州大学gzhu抢课脚本)
-  - [不想安装python环境的同学，可以查看我的另一个github项目](#不想安装python环境的同学可以查看我的另一个github项目)
   - [运行环境](#运行环境)
     - [需要安装的库](#需要安装的库)
   - [使用此脚本的教程](#使用此脚本的教程)
@@ -26,10 +25,6 @@
     - [7. 请不要随意删除程序文件夹内的文件](#7-请不要随意删除程序文件夹内的文件)
 
 <!-- /code_chunk_output -->
-
-## 不想安装python环境的同学，可以查看我的另一个github项目
-
-[exe版广州大学gzhu抢课脚本（要求系统win10及以上）](https://github.com/MILK2077/exe_gzhu_course_selector)
 
 ## 运行环境
 
