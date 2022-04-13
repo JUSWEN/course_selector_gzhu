@@ -47,6 +47,7 @@ os
 pip3 install requests
 pip3 install selenium
 pip3 install os
+pip3 install aiohttp
 pip3 install webdriver-manager
 ```
 
