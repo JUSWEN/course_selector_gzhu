@@ -1,1 +1,0 @@
-pyinstaller --distpath "../exe_gzhu_course_selector/dist" --workpath "../exe_gzhu_course_selector/dist" --clean -F --specpath "../exe_gzhu_course_selector/" -n "courseSelector" run.py
