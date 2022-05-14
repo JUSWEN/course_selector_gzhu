@@ -37,7 +37,7 @@
 ### 1.运行exe文件（仅适用于WINDOWS）
 
 - 链接<https://github.com/LihaoLikeOrangeJuice/course_selector_gzhu/releases>，请下载最新版本的course_selector_gzhu.exe文件
-- 使用教程请参考[使用教程](#使用教程)
+- [使用教程](#使用教程)
 
 ### 2.运行python源代码
 
@@ -52,7 +52,7 @@ python 3.9
 3. aiohttp
 4. webdriver_manager
 
-安装代码:
+##### 安装代码
 
 ```shell
 pip3 install requests
@@ -64,7 +64,7 @@ pip3 install webdriver-manager
 #### WINDOWS下简单的环境配置教程
 
 - 下载并安装python，在<https://www.python.org/downloads/windows/>网站下载python3.9对应的Windows installer并安装
-- 安装完成后，打开cmd，依次执行[需要安装的库](#需要安装的库)部分所列出的代码
+- 安装完成后，打开cmd，依次执行[安装代码](#安装代码)
 - 然后下载此项目的zip文件，如下图，先点code按钮，再点Download ZIP下载zip文件
 
 ![0](assets/0.png)
@@ -81,7 +81,7 @@ pip3 install webdriver-manager
 
 ![3](assets/3.png)
 
-使用教程请参考[使用教程](#使用教程)
+[使用教程](#使用教程)
 
 ## 使用教程
 
