@@ -15,6 +15,7 @@
 - [广州大学gzhu抢课脚本](#广州大学gzhu抢课脚本)
   - [运行环境](#运行环境)
     - [需要安装的库](#需要安装的库)
+    - [WINDOWS下简单的环境配置教程](#windows下简单的环境配置教程)
   - [使用此脚本的教程](#使用此脚本的教程)
     - [1. 在自己的浏览器登录教务系统选课界面，找到所有自己想选的课程，并完整复制其名称](#1-在自己的浏览器登录教务系统选课界面找到所有自己想选的课程并完整复制其名称)
     - [2. 运行run.py程序，建议在校园网环境下运行](#2-运行runpy程序建议在校园网环境下运行)
@@ -32,16 +33,12 @@ python 3.9
 
 ### 需要安装的库
 
-requests
+1. requests
+2. selenium(4.0.0及以上)
+3. aiohttp
+4. webdriver_manager
 
-selenium4.0.0及以上
-（注意selenium3会报错）
-
-aiohttp
-
-webdriver_manager
-
-用如下代码安装(如果还有缺失的包，请自行百度):
+安装代码:
 
 ```shell
 pip3 install requests
@@ -50,7 +47,27 @@ pip3 install aiohttp
 pip3 install webdriver-manager
 ```
 
-如果想使用anaconda ，请自行百度
+### WINDOWS下简单的环境配置教程
+
+- 下载并安装python，在<https://www.python.org/downloads/windows/>网站下载python3.9对应的Windows installer并安装
+- 安装完成后，打开cmd，依次执行[需要安装的库](#需要安装的库)部分所列出的代码
+- 然后下载此项目的zip文件，如下图，先点code按钮，再点Download ZIP下载zip文件
+
+![0](assets/0.png)
+
+- 下载完成后解压，然后进入文件夹，进入到run.py同级目录后（如下图），复制地址
+
+![1](assets/1.png)
+
+之后打开cmd，输入`cd`，输入空格，然后粘贴刚刚复制的地址，回车，如下图
+
+![2](assets/2.png)
+
+最后输入`python run.py`，再回车，即可运行程序，如下图
+
+![3](assets/3.png)
+
+之后的教程请参考下方
 
 ## 使用此脚本的教程
 
@@ -58,7 +75,7 @@ pip3 install webdriver-manager
 
 如图所示，示例:(130101303)学术研究与交流 - 1.0 学分
 
-![3](assets/3.png)
+![4](assets/4.png)
 
 注意！不要把两边的空格复制进去！从"("开始复制，到"学分"的"分"字结束。
 
@@ -72,8 +89,8 @@ pip3 install webdriver-manager
 
 ### 3. 根据提示输入学号和密码
 
-![4](assets/4.png)
 ![5](assets/5.png)
+![6](assets/6.png)
 
 ### 4. 等待一段时间后，根据提示操作
 
