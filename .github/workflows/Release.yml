@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Build-Packages
+name: Release
 
 # Controls when the workflow will run
 on:
@@ -42,7 +42,8 @@ jobs:
           pip3 install pyinstaller
           pyinstaller -F -n course_selector_gzhu run.py
       
-      - uses: ncipollo/release-action@v1
+      - name: Release
+        uses: ncipollo/release-action@v1
         with:
           artifacts: "./dist/course_selector_gzhu.exe"
           token: ${{ secrets.token }}
