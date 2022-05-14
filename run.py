@@ -1,12 +1,14 @@
 # 适用于gzhu新教务系统
 # 本人不对因使用此脚本而产生的任何后果或损失负责
 
-from multiprocessing import Process
+from multiprocessing import Process, freeze_support
 
 from folder import (access_maintainCookie, check_creatData, qiangke,
                     studentNumber_password)
 
 if __name__ == "__main__":
+    freeze_support()
+
     check_creatData.check_creatData()
 
     student_number, password = studentNumber_password.access()
