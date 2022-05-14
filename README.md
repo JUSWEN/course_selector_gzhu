@@ -1,5 +1,7 @@
 # 广州大学gzhu抢课脚本
 
+必须安装了Edge浏览器才能运行
+
 > 适用于广大新版教务系统 <https://newcas.gzhu.edu.cn/cas/login?service=https%3A%2F%2Fnewmy.gzhu.edu.cn%2Fup%2F>
 >
 > 谨献给745宿舍全体靓仔，祝各位靓仔学业顺利
