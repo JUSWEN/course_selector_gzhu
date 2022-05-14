@@ -43,7 +43,7 @@ os
 
 用如下代码安装(如果还有缺失的包，请自行百度):
 
-```cmd
+```shell
 pip3 install requests
 pip3 install selenium
 pip3 install os
