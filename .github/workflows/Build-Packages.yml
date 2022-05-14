@@ -37,10 +37,10 @@ jobs:
           pip3 install -r requirements.txt
           pip3 install pyinstaller
           pyinstaller -F -n course_selector_gzhu run.py
-      
-      - name: Upload to release
-        uses: JasonEtco/upload-to-release@master
-        with:
-          args: ./dist/course_selector_gzhu.exe
+          
+      - name: Release
+        uses: fnkr/github-action-ghr@v1
+        if: startsWith(github.ref, 'refs/tags/')
         env:
+          GHR_PATH: ./dist/course_selector_gzhu.exe
           GITHUB_TOKEN: ${{ secrets.token }}
