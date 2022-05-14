@@ -34,19 +34,18 @@ python 3.9
 
 requests
 
-webdriver_manager
-
 selenium4.0.0及以上
 （注意selenium3会报错）
 
-os
+aiohttp
+
+webdriver_manager
 
 用如下代码安装(如果还有缺失的包，请自行百度):
 
 ```shell
 pip3 install requests
 pip3 install selenium
-pip3 install os
 pip3 install aiohttp
 pip3 install webdriver-manager
 ```
