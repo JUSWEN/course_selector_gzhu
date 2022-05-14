@@ -36,7 +36,7 @@
 
 ### 1.运行exe文件（仅适用于WINDOWS）
 
-- 链接<https://github.com/LihaoLikeOrangeJuice/course_selector_gzhu/releases>，请下载最新版本的course_selector_gzhu.exe文件
+- [下载](https://github.com/LihaoLikeOrangeJuice/course_selector_gzhu/releases)最新版本的course_selector_gzhu.exe文件
 - [使用教程](#使用教程)
 
 ### 2.运行python源代码
