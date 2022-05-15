@@ -13,11 +13,11 @@ if __name__ == "__main__":
     if input("是否开启debug模式[y/n](直接回车则不开启）") == 'y':
         logging.basicConfig(
             level=logging.DEBUG,
-            format='%(threadName)s - %(levelname)s - %(message)s')
+            format='%(processName)s - %(levelname)s - %(message)s')
     else:
         logging.basicConfig(
             level=logging.INFO,
-            format='%(threadName)s - %(levelname)s - %(message)s')
+            format='%(processName)s - %(levelname)s - %(message)s')
 
     check_creatData.check_creatData()
 
