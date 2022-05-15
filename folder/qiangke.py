@@ -1,5 +1,6 @@
 import asyncio
 import json
+import logging
 import os
 import time
 
@@ -11,7 +12,7 @@ from . import submit_data
 def qiangke(student_number, delay):
     time.sleep(delay)
 
-    print('开始抢课！')
+    logging.info('开始抢课！')
 
     cookie_txt = os.path.exists('./cookies.txt')
 
@@ -83,6 +84,6 @@ def qiangke(student_number, delay):
 
     loop.close()
 
-    print('抢课结束！')
+    logging.info('抢课结束！')
 
     input()

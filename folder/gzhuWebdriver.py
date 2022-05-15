@@ -1,4 +1,5 @@
 import json
+import logging
 import re
 import sys
 import urllib.parse
@@ -128,7 +129,7 @@ class gzhu_edgedriver:
                     break
 
             except Exception as e:
-                print(e)
+                logging.error(e)
 
                 continue
 
@@ -180,7 +181,7 @@ class gzhu_edgedriver:
                     break
 
             except Exception as e:
-                print(e)
+                logging.error(e)
 
                 continue
 
@@ -196,23 +197,23 @@ def login_academicSystem(driver, brief="n"):
         page = driver.page_source
         check = re.findall('融合门户', page)
         if len(check) != 0:
-            print('融合门户登录成功！')
+            logging.info('融合门户登录成功！')
 
         try:
             driver.find_element(By.XPATH, "//a[@title='教务系统']/img").click()
 
         except Exception as e:
-            print(e)
+            logging.error(e)
 
             if len(check) == 0:
-                print('融合门户登录失败！\n'
-                      '请检查学号密码是否输入正确！\n'
-                      '并重新运行程序！')
+                logging.critical('融合门户登录失败！\n'
+                                 '请检查学号密码是否输入正确！\n'
+                                 '并重新运行程序！')
 
             else:
-                print('unknown error!\n'
-                      '已成功登录融合门户，但不能找到教务系统图标按钮！\n'
-                      '请重新运行程序！')
+                logging.critical('未知错误\n'
+                                 '已成功登录融合门户，但不能找到教务系统图标按钮！\n'
+                                 '请重新运行程序！')
 
             input()
 
@@ -247,7 +248,7 @@ def save_cookie(driver):
         # 将字符串cookie保存至txt文件中
         file.write(jsoncookies)
 
-    print('cookies updated')
+    logging.info('cookies updated')
 
 
 def select_courses(driver):
@@ -459,7 +460,7 @@ def select_courses(driver):
         # i=0表示不是第一循环
         i = 0
 
-        print('选课内容添加成功！')
+        logging.info('选课内容添加成功！')
 
         check_break = input('是否继续添加选课内容[y/n]?:')
         if check_break == 'n':
@@ -468,9 +469,9 @@ def select_courses(driver):
     driver.quit()
 
     if j:
-        print('data表单准备完成,抢课信息录入完毕。')
+        logging.info('data表单准备完成,抢课信息录入完毕。')
     else:
-        print('选课系统未开放,无法录入抢课信息，请在选课系统开放后再运行此脚本')
+        logging.info('选课系统未开放,无法录入抢课信息，请在选课系统开放后再运行此脚本')
 
         input()
 

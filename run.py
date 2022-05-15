@@ -3,11 +3,13 @@
 
 from multiprocessing import Process, freeze_support
 
-from folder import (access_maintainCookie, check_creatData, qiangke,
-                    studentNumber_password)
+from folder import (access_maintainCookie, check_creatData, logging_config,
+                    qiangke, studentNumber_password)
 
 if __name__ == "__main__":
     freeze_support()
+
+    logging_config.configure_logger()
 
     check_creatData.check_creatData()
 

@@ -1,3 +1,4 @@
+import logging
 import time
 
 from . import gzhuWebdriver
@@ -38,8 +39,8 @@ def access_maintainCookie(student_number, password):
             break
 
         except Exception as e:
-            print(e)
-            print("cookie updating failed！")
+            logging.error(e)
+            logging.error("cookie updating failed！")
 
     # retry为0表示不需要重试，retry为1表示需要重试
     retry = 0
@@ -67,7 +68,7 @@ def access_maintainCookie(student_number, password):
             gzhuWebdriver.save_cookie(driver)
 
         except Exception as e:
-            print(e)
-            print('cookies updating failed!')
+            logging.error(e)
+            logging.error('cookies updating failed!')
 
             retry = 1

@@ -1,3 +1,4 @@
+import logging
 import os
 
 from . import gzhuWebdriver, studentNumber_password
@@ -26,5 +27,5 @@ def check_creatData():
 
     # 如果有抢课信息表单，则继续运行程序
     else:
-        print('已存在抢课信息，如需重新选择抢课信息，请停止运行程序\n'
-              '并删除此脚本当前目录下的"data.txt"文件,然后重新运行程序')
+        logging.info('已存在抢课信息，如需重新选择抢课信息，请停止运行程序\n'
+                     '并删除此脚本当前目录下的"data.txt"文件,然后重新运行程序')
