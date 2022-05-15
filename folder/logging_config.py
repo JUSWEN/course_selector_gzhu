@@ -2,25 +2,22 @@ import logging
 
 
 def configure_logger():
-    # create logger
-    logger = logging.getLogger('logger1')
-    logger.setLevel(logging.DEBUG)
+    # Create a logger
+    logger = logging.getLogger()
 
-    # create console handler and set level to debug
-    ch = logging.StreamHandler()
-    ch.setLevel(logging.INFO)
+    # Create handlers
+    c_handler = logging.StreamHandler()
+    f_handler = logging.FileHandler("course_selector_gzhu.log")
+    c_handler.setLevel(logging.INFO)
+    f_handler.setLevel(logging.DEBUG)
 
-    fh = logging.FileHandler('log.txt')
-    fh.setLevel(logging.DEBUG)
+    # Create formatters and add it to handlers
+    c_format = logging.Formatter('%(levelname)s - %(process)s - %(message)s')
+    f_format = logging.Formatter(
+        '%(asctime)s  - %(levelname)s - %(process)s - %(message)s')
+    c_handler.setFormatter(c_format)
+    f_handler.setFormatter(f_format)
 
-    # create formatter
-    formatter = logging.Formatter(
-        '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-
-    # add formatter to handler
-    ch.setFormatter(formatter)
-    fh.setFormatter(formatter)
-
-    # add ch, fh to logger
-    logger.addHandler(ch)
-    logger.addHandler(fh)
+    # Add handlers to the logger
+    logger.addHandler(c_handler)
+    logger.addHandler(f_handler)
