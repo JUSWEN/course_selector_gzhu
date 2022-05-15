@@ -12,9 +12,10 @@ def configure_logger():
     f_handler.setLevel(logging.DEBUG)
 
     # Create formatters and add it to handlers
-    c_format = logging.Formatter('%(levelname)s - %(threadName)s - %(message)s')
+    c_format = logging.Formatter(
+        ' %(threadName)s -%(levelname)s - %(message)s')
     f_format = logging.Formatter(
-        '%(asctime)s  - %(levelname)s -%(threadName)s - %(message)s')
+        '%(asctime)s  -%(threadName)s - %(levelname)s - %(message)s')
     c_handler.setFormatter(c_format)
     f_handler.setFormatter(f_format)
 
