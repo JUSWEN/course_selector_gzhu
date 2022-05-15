@@ -12,6 +12,8 @@ if __name__ == "__main__":
 
     if input("是否开启debug模式[y/n](直接回车则不开启）") == 'y':
         logging.basicConfig(
+            filename="course_selector_gzhu.log",
+            filemode="w",
             level=logging.DEBUG,
             format='%(threadName)s - %(levelname)s - %(message)s')
     else:
