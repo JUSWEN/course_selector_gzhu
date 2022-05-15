@@ -10,8 +10,14 @@ from folder import (access_maintainCookie, check_creatData, qiangke,
 if __name__ == "__main__":
     freeze_support()
 
-    logging.basicConfig(level=logging.DEBUG,
-                        format='%(threadName)s - %(levelname)s - %(message)s')
+    if input("是否开启debug模式[y/n](直接回车则不开启）") == 'y':
+        logging.basicConfig(
+            level=logging.DEBUG,
+            format='%(threadName)s - %(levelname)s - %(message)s')
+    else:
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(threadName)s - %(levelname)s - %(message)s')
 
     check_creatData.check_creatData()
 
