@@ -215,7 +215,7 @@ def login_academicSystem(driver, brief="n"):
                                  '已成功登录融合门户，但不能找到教务系统图标按钮！\n'
                                  '请重新运行程序！')
 
-            input()
+            input("程序运行结束，回车以退出程序")
 
             sys.exit(0)
 
@@ -473,6 +473,6 @@ def select_courses(driver):
     else:
         logging.info('选课系统未开放,无法录入抢课信息，请在选课系统开放后再运行此脚本')
 
-        input()
+        input("程序运行结束，回车以退出程序")
 
         sys.exit()

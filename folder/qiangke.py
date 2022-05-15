@@ -86,4 +86,4 @@ def qiangke(student_number, delay):
 
     logging.info('抢课结束！')
 
-    input()
+    input("程序运行结束，回车以退出程序")
