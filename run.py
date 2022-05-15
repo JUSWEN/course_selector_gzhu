@@ -1,15 +1,17 @@
 # 适用于gzhu新教务系统
 # 本人不对因使用此脚本而产生的任何后果或损失负责
 
+import logging
 from multiprocessing import Process, freeze_support
 
-from folder import (access_maintainCookie, check_creatData, logging_config,
-                    qiangke, studentNumber_password)
+from folder import (access_maintainCookie, check_creatData, qiangke,
+                    studentNumber_password)
 
 if __name__ == "__main__":
     freeze_support()
 
-    logging_config.configure_logger()
+    logging.basicConfig(level=logging.DEBUG,
+                        format='%(threadName)s - %(levelname)s - %(message)s')
 
     check_creatData.check_creatData()
 
