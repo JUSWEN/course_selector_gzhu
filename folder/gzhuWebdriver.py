@@ -349,11 +349,11 @@ def select_courses(driver):
         jxb_numbers = re.findall('教学班个数.*">([1-9])</font>', page)
 
         if len(jxb_numbers) == 0:
-            print('未找到教学班信息，请检查信息是否输入正确\n'
-                  '教学班名称示例:(180111005)地理教学技能 - 1.0 学分\n'
-                  '注意！名称的左右不要留有空格！\n'
-                  '注意！请检查课程类别是否正确！\n'
-                  '请在程序提示后，重新输入信息！')
+            logging.error('未找到教学班信息，请检查信息是否输入正确\n'
+                          '教学班名称示例:(180111005)地理教学技能 - 1.0 学分\n'
+                          '注意！名称的左右不要留有空格！\n'
+                          '注意！请检查课程类别是否正确！\n'
+                          '请在程序提示后，重新输入信息！')
 
             continue
 
@@ -371,7 +371,7 @@ def select_courses(driver):
             course_number = driver.find_element(
                 By.XPATH, f"//tr[{i}]]/td[@class='jxbmc']").text
 
-            print(
+            logging.info(
                 f'教学班{i},老师:{teacher},上课时间:{course_time},教学班号:{course_number}\n'
             )
 
