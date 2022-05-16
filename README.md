@@ -13,25 +13,18 @@
 
 ## 运行方法(必须先安装Edge浏览器)
 
-### 1.运行exe文件（仅适用于WINDOWS）
+### 方法一、运行exe文件（仅适用于WINDOWS）
 
 - [下载](https://github.com/LihaoLikeOrangeJuice/course_selector_gzhu/releases)最新版本的course_selector_gzhu.exe文件
 - [使用教程](#使用教程)
 
-### 2.运行python源代码
+### 方法二、运行python源代码
 
 #### python版本
 
 python 3.9
 
-#### 需要安装的库
-
-1. requests
-2. selenium(4.0.0及以上)
-3. aiohttp
-4. webdriver_manager
-
-##### 安装代码
+#### 安装依赖
 
 ```shell
 pip3 install requests
@@ -39,28 +32,6 @@ pip3 install selenium
 pip3 install aiohttp
 pip3 install webdriver-manager
 ```
-
-#### WINDOWS下简单的环境配置教程
-
-- 下载并安装python，在<https://www.python.org/downloads/windows/>网站下载python3.9对应的Windows installer并安装
-- 安装完成后，打开cmd，依次执行[安装代码](#安装代码)
-- 然后下载此项目的zip文件，如下图，先点code按钮，再点Download ZIP下载zip文件
-
-![0](assets/0.png)
-
-- 下载完成后解压，然后进入文件夹，进入到run.py同级目录后（如下图），复制地址
-
-![1](assets/1.png)
-
-之后打开cmd，输入`cd`，输入空格，然后粘贴刚刚复制的地址，回车，如下图
-
-![2](assets/2.png)
-
-最后输入`python run.py`，再回车，即可运行程序，如下图
-
-![3](assets/3.png)
-
-[使用教程](#使用教程)
 
 ## 使用教程
 
