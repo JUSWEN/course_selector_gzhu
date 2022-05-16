@@ -1,5 +1,4 @@
-# 适用于gzhu新教务系统
-# 本人不对因使用此脚本而产生的任何后果或损失负责
+# 适用于广大新版教务系统
 
 import logging
 from multiprocessing import Process, freeze_support
