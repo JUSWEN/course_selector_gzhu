@@ -1,7 +1,5 @@
 # 广州大学gzhu抢课脚本
 
-必须安装了Edge浏览器才能运行
-
 > 适用于广大新版教务系统 <https://newcas.gzhu.edu.cn/cas/login?service=https%3A%2F%2Fnewmy.gzhu.edu.cn%2Fup%2F>
 >
 > 谨献给745宿舍全体靓仔，祝各位靓仔学业顺利
@@ -37,7 +35,7 @@
 - 支持同时抢多门课程
 - 使用异步协程加快抢课速度
 
-## 运行方法
+## 运行方法(必须先安装Edge浏览器)
 
 ### 1.运行exe文件（仅适用于WINDOWS）
 
