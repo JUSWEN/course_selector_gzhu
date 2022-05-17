@@ -1,9 +1,8 @@
 import logging
 import os
 
-from gzhuWebdriver import gzhu_edgedriver
-
 from . import studentNumber_password
+from .gzhuWebdriver import gzhu_edgedriver
 
 
 def check_creatData():
