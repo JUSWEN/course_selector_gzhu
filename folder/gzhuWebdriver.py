@@ -17,21 +17,21 @@ from webdriver_manager.microsoft import EdgeChromiumDriverManager
 
 class gzhu_edgedriver:
 
-    def __init__(self, student_number, password):
+    def __init__(self, student_number, password, headless='y', eager='y'):
         """
         Args:
             student_number (str)\n
-            password (str)
+            password (str)\n
+            headless(str)\n
+            eager(str)
+
+        If and only if headless == "y", the browser is headless\n
+        If and only if eager == 'y', page load strategy is eager
         """
         self.student_number = student_number
 
         self.password = password
 
-    def start_edgedriver(self, headless='y', eager='y'):
-        """
-        If and only if headless == "y", the browser is headless\n
-        If and only if eager == 'y', page load strategy is eager
-        """
         options = Options()
 
         optionsList = [
@@ -53,25 +53,26 @@ class gzhu_edgedriver:
             "ignore-certificate-errors", "enable-automation", "enable-logging"
         ])
 
-        driver = selenium.webdriver.Edge(service=Service(
+        self.driver = selenium.webdriver.Edge(service=Service(
             EdgeChromiumDriverManager().install()),
-                                         options=options)
+                                              options=options)
 
-        return driver
+        self.wdwait = WebDriverWait(self.driver, 30)
 
-    def login_portal(self, driver):
+    def get_driver(self):
+        return self.driver
+
+    def login_portal(self):
         """从统一身份认证页面登陆融合门户"""
-        wdwait = WebDriverWait(driver, 30)
-
         student_number = self.student_number
         password = self.password
 
-        driver.get(
+        self.driver.get(
             "https://newcas.gzhu.edu.cn/cas/login?service=https%3A%2F%2Fnewmy.gzhu.edu.cn%2Fup%2Fview%3Fm%3Dup"
         )
 
         try:
-            wdwait.until(
+            self.wdwait.until(
                 EC.visibility_of_element_located(
                     (By.XPATH,
                      "//div[@class='robot-mag-win small-big-small']")))
@@ -84,52 +85,50 @@ class gzhu_edgedriver:
                 f"document.getElementById('pd').value='{password}'",
                 "document.getElementById('index_login_btn').click()"
         ]:
-            driver.execute_script(script)
+            self.driver.execute_script(script)
 
         try:
-            wdwait.until(
+            self.wdwait.until(
                 EC.visibility_of_element_located(
                     (By.XPATH, '//a[@title="教务系统"]/img')))
 
         except TimeoutException:
             pass
 
-    def portal_loginStatus(self, driver):
+    def portal_loginStatus(self):
         '''
         检查融合门户登录状态，并在注销后进行登陆
         '''
-        wdwait = WebDriverWait(driver, 30)
-
         while True:
             try:
-                driver.refresh()
+                self.driver.refresh()
 
                 try:
-                    wdwait.until(
+                    self.wdwait.until(
                         EC.visibility_of_element_located(
                             (By.XPATH, "//a[@title='教务系统']/img")))
 
                 except TimeoutException:
                     pass
 
-                login_mark = driver.execute_script(
+                login_mark = self.driver.execute_script(
                     "return document.getElementsByClassName('h-navigation-header')[0]"
                 )
-                logout_mark = driver.execute_script(
+                logout_mark = self.driver.execute_script(
                     "return document.getElementsByClassName('login-main-part')[0]"
                 )
 
                 if logout_mark != None and login_mark == None:
-                    self.login_portal(driver)
+                    self.login_portal(self.driver)
                 elif logout_mark == None and login_mark == None:
                     continue
                 elif logout_mark == None and login_mark != None:
                     break
 
-                login_mark = driver.execute_script(
+                login_mark = self.driver.execute_script(
                     "return document.getElementsByClassName('h-navigation-header')[0]"
                 )
-                logout_mark = driver.execute_script(
+                logout_mark = self.driver.execute_script(
                     "return document.getElementsByClassName('login-main-part')[0]"
                 )
 
@@ -141,55 +140,53 @@ class gzhu_edgedriver:
 
                 continue
 
-    def academicSystem_loginStatus(self, driver):
+    def academicSystem_loginStatus(self):
         '''
         检查教务系统登录状态，并在注销后进行登陆
         '''
-        wdwait = WebDriverWait(driver, 30)
-
         while True:
             try:
-                driver.refresh()
+                self.driver.refresh()
 
                 try:
-                    wdwait.until(
+                    self.wdwait.until(
                         EC.visibility_of_element_located(
                             (By.XPATH, '//img[@class="media-object"]')))
 
                 except TimeoutException:
                     pass
 
-                logout_mark = driver.execute_script(
+                logout_mark = self.driver.execute_script(
                     "return document.getElementsByClassName('img-responsive')[0]"
                 )
-                login_mark = driver.execute_script(
+                login_mark = self.driver.execute_script(
                     "return document.getElementsByClassName('media-object')[0]"
                 )
 
                 if logout_mark != None and login_mark == None:
-                    driver.close()
+                    self.driver.close()
 
-                    windows = driver.windows_handles
+                    windows = self.driver.windows_handles
                     for window in windows:
-                        driver.switch_to.window(window)
+                        self.driver.switch_to.window(window)
 
-                        title = driver.title
+                        title = self.driver.title
                         if title == "融合门户":
                             break
 
-                    self.portal_loginStatus(driver)
+                    self.portal_loginStatus(self.driver)
 
-                    self.login_academicSystem(driver, "y")
+                    self.login_academicSystem(self.driver, "y")
 
                 elif logout_mark == None and login_mark == None:
                     continue
                 elif logout_mark == None and login_mark != None:
                     break
 
-                logout_mark = driver.execute_script(
+                logout_mark = self.driver.execute_script(
                     "return document.getElementsByClassName('img-responsive')[0]"
                 )
-                login_mark = driver.execute_script(
+                login_mark = self.driver.execute_script(
                     "return document.getElementsByClassName('media-object')[0]"
                 )
 
@@ -201,21 +198,19 @@ class gzhu_edgedriver:
 
                 continue
 
-    def login_academicSystem(self, driver, brief="n"):
+    def login_academicSystem(self, brief="n"):
         '''
         登陆教务系统并检查融合门户登录状态\n
         If and only if brief == "n", check login status
         '''
-        wdwait = WebDriverWait(driver, 30)
-
         if brief == 'n':
-            page = driver.page_source
+            page = self.driver.page_source
             check = re.findall('融合门户', page)
             if len(check) != 0:
                 logging.info('融合门户登录成功！')
 
             try:
-                driver.find_element(By.XPATH, "//a[@title='教务系统']/img").click()
+                self.driver.find_element(By.XPATH, "//a[@title='教务系统']/img").click()
 
             except Exception as e:
                 logging.error(e)
@@ -234,27 +229,27 @@ class gzhu_edgedriver:
 
                 sys.exit(0)
 
-            title = driver.title
+            title = self.driver.title
             if title == '融合门户':
-                windows = driver.window_handles
-                driver.switch_to.window(windows[-1])
+                windows = self.driver.window_handles
+                self.driver.switch_to.window(windows[-1])
 
         else:
-            driver.execute_script(
+            self.driver.execute_script(
                 "window.open('http://jwxt.gzhu.edu.cn/sso/driot4login')")
 
         try:
-            wdwait.until(
+            self.wdwait.until(
                 EC.visibility_of_element_located(
                     (By.XPATH, '//img[@class="media-object"]')))
 
         except TimeoutException:
             pass
 
-    def save_cookie(self, driver):
+    def save_cookie(self):
         '''保存Cookie到./cookies.txt'''
         # 得到dict的cookie
-        dictcookies = driver.get_cookies()
+        dictcookies = self.driver.get_cookies()
         # json.dumps和json.loads分别是将字典转换为字符串和将字符串转换为字典的方法
         # json.loads仅支持元素用双引号括住的字典
         jsoncookies = json.dumps(dictcookies)
@@ -264,10 +259,8 @@ class gzhu_edgedriver:
 
         logging.info('cookies updated')
 
-    def select_courses(self, driver):
-        '''自主选课'''
-        wdwait = WebDriverWait(driver, 30)
-
+    def select_courses(self):
+        '''选课并保存选课信息'''
         # j表示data表单生成成功,0为假,1为真。
         j = 0
 
@@ -281,22 +274,22 @@ class gzhu_edgedriver:
                         '//nav[@id="cdNav"]/ul[@class="nav navbar-nav"]/li[3]',
                         '//a[contains(text(),"自主选课")]'
                 ]:
-                    driver.find_element(By.XPATH, xpath).click()
+                    self.driver.find_element(By.XPATH, xpath).click()
 
-                title = driver.title
+                title = self.driver.title
                 if title == '广州大学教学综合信息服务平台':
-                    windows = driver.window_handles
-                    driver.switch_to.window(windows[-1])
+                    windows = self.driver.window_handles
+                    self.driver.switch_to.window(windows[-1])
 
                 try:
-                    wdwait.until(
+                    self.wdwait.until(
                         EC.visibility_of_element_located(
                             (By.XPATH, '//div[@class="navbar-header"]')))
 
                 except TimeoutException:
                     pass
 
-                source = driver.page_source
+                source = self.driver.page_source
                 # 通过页面信息判断是否处于选课阶段
                 check = re.findall("当前不属于选课阶段", source)
                 if len(check) != 0:
@@ -311,7 +304,7 @@ class gzhu_edgedriver:
             kch_id = course_name.split(')')[0][1:]
 
             try:
-                wdwait.until(
+                self.wdwait.until(
                     EC.visibility_of_element_located(
                         (By.XPATH, "//button[@name='reset']"))).click()
 
@@ -322,35 +315,35 @@ class gzhu_edgedriver:
                 input('请输入课程类别：\n主修课程请输入1，板块课体育请输入2，通识选修请输入3，其他特殊课程请输入4\n'))
 
             if course_classification == 1:
-                driver.find_element(
+                self.driver.find_element(
                     By.XPATH,
                     '//ul[@class="nav nav-tabs sl_nav_tabs"]/li[1]').click()
 
             elif course_classification == 2:
-                driver.find_element(
+                self.driver.find_element(
                     By.XPATH,
                     '//ul[@class="nav nav-tabs sl_nav_tabs"]/li[2]').click()
 
             elif course_classification == 3:
-                driver.find_element(
+                self.driver.find_element(
                     By.XPATH,
                     '//ul[@class="nav nav-tabs sl_nav_tabs"]/li[3]').click()
 
             elif course_classification == 4:
-                driver.find_element(
+                self.driver.find_element(
                     By.XPATH,
                     '//ul[@class="nav nav-tabs sl_nav_tabs"]/li[4]').click()
 
-            sendkeys_button = driver.find_element(
+            sendkeys_button = self.driver.find_element(
                 By.XPATH, '//input[@placeholder="请输入课程号或课程名称或教学班名称查询!"]')
             # ActionChains能模拟鼠标移动，点击，拖拽，长按，双击等等操作...
-            ActionChains(driver).move_to_element(
+            ActionChains(self.driver).move_to_element(
                 sendkeys_button).click().send_keys(kch_id).perform()
 
-            driver.find_element(By.XPATH, '//button[@name="query"]').click()
+            self.driver.find_element(By.XPATH, '//button[@name="query"]').click()
 
             try:
-                wdwait.until(
+                self.wdwait.until(
                     EC.visibility_of_element_located(
                         (By.XPATH, "//tr[1]/td[@class='jsxmzc']")))
 
@@ -358,7 +351,7 @@ class gzhu_edgedriver:
                 pass
 
             # 网页源代码
-            page = driver.page_source
+            page = self.driver.page_source
             # 在网页代码中找到教学班的个数
             jxb_numbers = re.findall('教学班个数.*">([1-9])</font>', page)
 
@@ -376,13 +369,13 @@ class gzhu_edgedriver:
             while i <= int(jxb_numbers[0]):
                 # 不同的教学班的信息在不同序号的tr标签下,依次打印各个教学班的信息
                 # 老师名字与职称
-                teacher = driver.find_element(
+                teacher = self.driver.find_element(
                     By.XPATH, f"//tr[{i}]/td[@class='jsxmzc']").text
                 # 上课时间
-                course_time = driver.find_element(
+                course_time = self.driver.find_element(
                     By.XPATH, f"//tr[{i}]/td[@class='sksj']").text
                 # 教学班号
-                course_number = driver.find_element(
+                course_number = self.driver.find_element(
                     By.XPATH, f"//tr[{i}]]/td[@class='jxbmc']").text
 
                 logging.info(
@@ -396,7 +389,7 @@ class gzhu_edgedriver:
                           '示例:(2021-2022-2)-131800701-1\n'
                           '注意！教学班号的左右不要留有空格！\n')
 
-            tobeprocessed_jxb_ids = driver.find_element(
+            tobeprocessed_jxb_ids = self.driver.find_element(
                 By.XPATH,
                 f'//td[@class="jxbmc" and contains(text(), "{jxbmc}")]/../td[@class="an"]/button'
             ).get_attribute('onclick')
@@ -415,31 +408,31 @@ class gzhu_edgedriver:
             kcmc = course_name[0] + strings1 + '+-+1.0+' + strings2
 
             # 下面为通过js找到属性值的函数
-            rwlx = driver.execute_script(
+            rwlx = self.driver.execute_script(
                 "document.getElementById('rwlx')['value']")
-            rlkz = driver.execute_script(
+            rlkz = self.driver.execute_script(
                 "document.getElementById('rlkz')['value']")
-            rlzlkz = driver.execute_script(
+            rlzlkz = self.driver.execute_script(
                 "document.getElementById('rlzlkz')['value']")
-            xkxnm = driver.execute_script(
+            xkxnm = self.driver.execute_script(
                 "document.getElementById('xkxnm')['value']")
-            xkxqm = driver.execute_script(
+            xkxqm = self.driver.execute_script(
                 "document.getElementById('xkxqm')['value']")
-            xklc = driver.execute_script(
+            xklc = self.driver.execute_script(
                 "document.getElementById('xklc')['value']")
-            kklxdm = driver.execute_script(
+            kklxdm = self.driver.execute_script(
                 "document.getElementById('kklxdm')['value']")
-            zyh_id = driver.execute_script(
+            zyh_id = self.driver.execute_script(
                 "document.getElementById('zyh_id')['value']")
-            njdm_id = driver.execute_script(
+            njdm_id = self.driver.execute_script(
                 "document.getElementById('njdm_id')['value']")
-            xkkz_id = driver.execute_script(
+            xkkz_id = self.driver.execute_script(
                 "document.getElementById('xkkz_id')['value']")
 
             # 下面是用xpath找属性值的函数
-            cxbj = driver.find_element(
+            cxbj = self.driver.find_element(
                 By.XPATH, "//input[@name='cxbj']").get_attribute('value')
-            xxkbj = driver.find_element(
+            xxkbj = self.driver.find_element(
                 By.XPATH, "//input[@name='xxkbj']").get_attribute('value')
 
             # 下面是完整的data表单的内容
@@ -480,7 +473,7 @@ class gzhu_edgedriver:
             if check_break == 'n':
                 break
 
-        driver.quit()
+        self.driver.quit()
 
         if j:
             logging.info('data表单准备完成,抢课信息录入完毕。')
