@@ -18,9 +18,9 @@
 - [下载](https://github.com/LihaoLikeOrangeJuice/course_selector_gzhu/releases)最新版本的course_selector_gzhu.exe文件
 - [使用教程](#使用教程)
 
-### 方法二、运行python源代码
+### 方法二、运行Python源代码
 
-#### python版本
+#### Python版本
 
 python 3.9
 
@@ -32,6 +32,8 @@ pip3 install selenium
 pip3 install aiohttp
 pip3 install webdriver-manager
 ```
+
+#### 运行course_selector_gzhu.py
 
 ## 使用教程
 
