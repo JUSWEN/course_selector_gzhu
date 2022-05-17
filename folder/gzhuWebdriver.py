@@ -29,11 +29,9 @@ class gzhu_edgedriver:
         If and only if eager == 'y', page load strategy is eager
         """
         self.student_number = student_number
-
         self.password = password
 
         options = Options()
-
         optionsList = [
             "--enable-javascript", "start-maximized", "--disable-gpu",
             "--disable-extensions", "--no-sandbox",
@@ -76,7 +74,6 @@ class gzhu_edgedriver:
                 EC.visibility_of_element_located(
                     (By.XPATH,
                      "//div[@class='robot-mag-win small-big-small']")))
-
         except TimeoutException:
             pass
 
@@ -91,7 +88,6 @@ class gzhu_edgedriver:
             self.wdwait.until(
                 EC.visibility_of_element_located(
                     (By.XPATH, '//a[@title="教务系统"]/img')))
-
         except TimeoutException:
             pass
 
@@ -107,7 +103,6 @@ class gzhu_edgedriver:
                     self.wdwait.until(
                         EC.visibility_of_element_located(
                             (By.XPATH, "//a[@title='教务系统']/img")))
-
                 except TimeoutException:
                     pass
 
@@ -118,11 +113,11 @@ class gzhu_edgedriver:
                     "return document.getElementsByClassName('login-main-part')[0]"
                 )
 
-                if logout_mark != None and login_mark == None:
-                    self.login_portal(self.driver)
-                elif logout_mark == None and login_mark == None:
+                if logout_mark and not login_mark:
+                    self.login_portal()
+                elif not logout_mark and not login_mark:
                     continue
-                elif logout_mark == None and login_mark != None:
+                elif not logout_mark and login_mark:
                     break
 
                 login_mark = self.driver.execute_script(
@@ -132,7 +127,7 @@ class gzhu_edgedriver:
                     "return document.getElementsByClassName('login-main-part')[0]"
                 )
 
-                if logout_mark == None and login_mark != None:
+                if not logout_mark and login_mark:
                     break
 
             except Exception as e:
@@ -152,7 +147,6 @@ class gzhu_edgedriver:
                     self.wdwait.until(
                         EC.visibility_of_element_located(
                             (By.XPATH, '//img[@class="media-object"]')))
-
                 except TimeoutException:
                     pass
 
@@ -163,7 +157,7 @@ class gzhu_edgedriver:
                     "return document.getElementsByClassName('media-object')[0]"
                 )
 
-                if logout_mark != None and login_mark == None:
+                if logout_mark and not login_mark:
                     self.driver.close()
 
                     windows = self.driver.windows_handles
@@ -174,13 +168,11 @@ class gzhu_edgedriver:
                         if title == "融合门户":
                             break
 
-                    self.portal_loginStatus(self.driver)
-
-                    self.login_academicSystem(self.driver, "y")
-
-                elif logout_mark == None and login_mark == None:
+                    self.portal_loginStatus()
+                    self.login_academicSystem("y")
+                elif not logout_mark and not login_mark:
                     continue
-                elif logout_mark == None and login_mark != None:
+                elif not logout_mark and login_mark:
                     break
 
                 logout_mark = self.driver.execute_script(
@@ -190,7 +182,7 @@ class gzhu_edgedriver:
                     "return document.getElementsByClassName('media-object')[0]"
                 )
 
-                if logout_mark == None and login_mark != None:
+                if not logout_mark and login_mark:
                     break
 
             except Exception as e:
@@ -205,35 +197,33 @@ class gzhu_edgedriver:
         '''
         if brief == 'n':
             page = self.driver.page_source
+
             check = re.findall('融合门户', page)
-            if len(check) != 0:
+            if len(check):
                 logging.info('融合门户登录成功！')
 
             try:
-                self.driver.find_element(By.XPATH, "//a[@title='教务系统']/img").click()
-
+                self.driver.find_element(By.XPATH,
+                                         "//a[@title='教务系统']/img").click()
             except Exception as e:
                 logging.error(e)
 
-                if len(check) == 0:
+                if not len(check):
                     logging.critical('融合门户登录失败！\n'
                                      '请检查学号密码是否输入正确！\n'
                                      '并重新运行程序！')
-
                 else:
                     logging.critical('未知错误\n'
                                      '已成功登录融合门户，但不能找到教务系统图标按钮！\n'
                                      '请重新运行程序！')
 
                 input("程序运行结束，回车以退出程序")
-
                 sys.exit(0)
 
             title = self.driver.title
             if title == '融合门户':
                 windows = self.driver.window_handles
                 self.driver.switch_to.window(windows[-1])
-
         else:
             self.driver.execute_script(
                 "window.open('http://jwxt.gzhu.edu.cn/sso/driot4login')")
@@ -242,7 +232,6 @@ class gzhu_edgedriver:
             self.wdwait.until(
                 EC.visibility_of_element_located(
                     (By.XPATH, '//img[@class="media-object"]')))
-
         except TimeoutException:
             pass
 
@@ -250,6 +239,7 @@ class gzhu_edgedriver:
         '''保存Cookie到./cookies.txt'''
         # 得到dict的cookie
         dictcookies = self.driver.get_cookies()
+
         # json.dumps和json.loads分别是将字典转换为字符串和将字符串转换为字典的方法
         # json.loads仅支持元素用双引号括住的字典
         jsoncookies = json.dumps(dictcookies)
@@ -269,7 +259,7 @@ class gzhu_edgedriver:
 
         while True:
             # 第一次循环，进入选课系统，并判断是否处于选课阶段
-            if i == 1:
+            if i:
                 for xpath in [
                         '//nav[@id="cdNav"]/ul[@class="nav navbar-nav"]/li[3]',
                         '//a[contains(text(),"自主选课")]'
@@ -285,14 +275,13 @@ class gzhu_edgedriver:
                     self.wdwait.until(
                         EC.visibility_of_element_located(
                             (By.XPATH, '//div[@class="navbar-header"]')))
-
                 except TimeoutException:
                     pass
 
                 source = self.driver.page_source
                 # 通过页面信息判断是否处于选课阶段
                 check = re.findall("当前不属于选课阶段", source)
-                if len(check) != 0:
+                if len(check):
                     break
 
             # 通过课程名称进行选课操作
@@ -307,7 +296,6 @@ class gzhu_edgedriver:
                 self.wdwait.until(
                     EC.visibility_of_element_located(
                         (By.XPATH, "//button[@name='reset']"))).click()
-
             except TimeoutException:
                 pass
 
@@ -340,13 +328,13 @@ class gzhu_edgedriver:
             ActionChains(self.driver).move_to_element(
                 sendkeys_button).click().send_keys(kch_id).perform()
 
-            self.driver.find_element(By.XPATH, '//button[@name="query"]').click()
+            self.driver.find_element(By.XPATH,
+                                     '//button[@name="query"]').click()
 
             try:
                 self.wdwait.until(
                     EC.visibility_of_element_located(
                         (By.XPATH, "//tr[1]/td[@class='jsxmzc']")))
-
             except TimeoutException:
                 pass
 
@@ -355,13 +343,12 @@ class gzhu_edgedriver:
             # 在网页代码中找到教学班的个数
             jxb_numbers = re.findall('教学班个数.*">([1-9])</font>', page)
 
-            if len(jxb_numbers) == 0:
+            if not len(jxb_numbers):
                 logging.error('未找到教学班信息，请检查信息是否输入正确\n'
                               '教学班名称示例:(180111005)地理教学技能 - 1.0 学分\n'
                               '注意！名称的左右不要留有空格！\n'
                               '注意！请检查课程类别是否正确！\n'
                               '请在程序提示后，重新输入信息！')
-
                 continue
 
             i = 1
@@ -463,7 +450,6 @@ class gzhu_edgedriver:
 
             # j=1 表示抢课信息录入成功
             j = 1
-
             # i=0表示不是第一循环
             i = 0
 

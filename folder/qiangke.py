@@ -2,6 +2,7 @@ import asyncio
 import json
 import logging
 import os
+import sys
 import time
 
 from requests.cookies import RequestsCookieJar
@@ -69,16 +70,15 @@ def qiangke(student_number, delay):
 
                     break
 
-            if i == 1:
+            if i:
                 break
 
-        if i == 1:
+        if i:
             with open('./cookies.txt', 'r') as file:
                 listcookies = json.loads(file.read())
 
             jar = RequestsCookieJar()
             jar.set(listcookies[0]['name'], listcookies[0]['value'])
-
         else:
             break
 
@@ -87,3 +87,4 @@ def qiangke(student_number, delay):
     logging.info('抢课结束！')
 
     input("程序运行结束，回车以退出程序")
+    sys.exit(0)

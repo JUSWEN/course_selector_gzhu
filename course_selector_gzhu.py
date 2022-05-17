@@ -27,7 +27,7 @@ if __name__ == "__main__":
                   "另一个进程将立即执行，登陆教务系统，维持会话并定时更新cookie\n"
                   "请输入延时分钟数：")
 
-    if delay == '':
+    if not delay:
         delay = 0
     else:
         delay = int(delay) * 60

@@ -13,7 +13,6 @@ def access():
     if not studentNumber_txt or not password_txt:
         student_number = input('请输入学号:')
         password = input('请输入密码:')
-
     # 如果student_number.txt与password.txt都存在,就读取这两个文件中储存的学号密码
     else:
         with open(studentNumber_path, 'r') as file:
