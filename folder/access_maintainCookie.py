@@ -29,12 +29,12 @@ def access_maintainCookie(student_number, password):
                 gzhuEd.login_portal(driver)
 
             if pageName in [0, 1]:
-                gzhuWebdriver.login_academicSystem(driver, 'y')
+                gzhuEd.login_academicSystem(driver, 'y')
 
             if pageName in [0, 1, 2]:
                 gzhuEd.academicSystem_loginStatus(driver)
 
-                gzhuWebdriver.save_cookie(driver)
+                gzhuEd.save_cookie(driver)
 
             break
 
@@ -51,7 +51,7 @@ def access_maintainCookie(student_number, password):
                 retry = 0
 
             else:
-                time.sleep(10 * 60)
+                time.sleep(5 * 60)
 
             windows = driver.window_handles
             for window in windows:
@@ -65,7 +65,7 @@ def access_maintainCookie(student_number, password):
 
             driver.switch_to.window(windows[-1])
 
-            gzhuWebdriver.save_cookie(driver)
+            gzhuEd.save_cookie(driver)
 
         except Exception as e:
             logging.error(e)

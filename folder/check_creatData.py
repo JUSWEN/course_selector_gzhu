@@ -17,13 +17,13 @@ def check_creatData():
 
         gzhuEd.login_portal(driver)
 
-        gzhuWebdriver.login_academicSystem(driver)
+        gzhuEd.login_academicSystem(driver)
 
         studentNumber_password.save(student_number, password)
 
-        gzhuWebdriver.save_cookie(driver)
+        gzhuEd.save_cookie(driver)
 
-        gzhuWebdriver.select_courses(driver)
+        gzhuEd.select_courses(driver)
 
     # 如果有抢课信息表单，则继续运行程序
     else:
