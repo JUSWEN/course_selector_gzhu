@@ -41,7 +41,7 @@ jobs:
 
       - name: Run pyinstaller
         run:
-          pyinstaller -F -n course_selector_gzhu  course_selector_gzhu.py
+          pyinstaller -F -n course_selector_gzhu course_selector_gzhu.py
       
       - name: Release
         uses: ncipollo/release-action@v1
