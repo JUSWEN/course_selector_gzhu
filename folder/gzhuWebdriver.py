@@ -201,7 +201,7 @@ class gzhu_edgedriver:
 
                 continue
 
-    def login_academicSystem(driver, brief="n"):
+    def login_academicSystem(self, driver, brief="n"):
         '''
         登陆教务系统并检查融合门户登录状态\n
         If and only if brief == "n", check login status
@@ -251,7 +251,7 @@ class gzhu_edgedriver:
         except TimeoutException:
             pass
 
-    def save_cookie(driver):
+    def save_cookie(self, driver):
         '''保存Cookie到./cookies.txt'''
         # 得到dict的cookie
         dictcookies = driver.get_cookies()
@@ -264,7 +264,7 @@ class gzhu_edgedriver:
 
         logging.info('cookies updated')
 
-    def select_courses(driver):
+    def select_courses(self, driver):
         '''自主选课'''
         wdwait = WebDriverWait(driver, 30)
 
