@@ -4,7 +4,7 @@ from loguru import logger
 
 
 def configure_logger():
-    file_name = "course_selector_gzhu.log"
+    file_name = "log.log"
 
     file = open(file_name, "w")
     file.close()

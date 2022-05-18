@@ -1,7 +1,7 @@
 import os
 
 from . import logger_configure, studentNumber_password
-from .gzhuWebdriver import gzhu_edgedriver
+from .gzhu_edgedriver import gzhu_edgedriver
 
 
 def check_creatData(headless):

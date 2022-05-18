@@ -1,7 +1,7 @@
 import time
 
 from . import logger_configure
-from .gzhuWebdriver import gzhu_edgedriver
+from .gzhu_edgedriver import gzhu_edgedriver
 
 
 def access_maintainCookie(student_number, password, headless):
