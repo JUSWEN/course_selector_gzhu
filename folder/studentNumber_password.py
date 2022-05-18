@@ -1,4 +1,5 @@
 import os
+import time
 
 studentNumber_path = './student_number.txt'
 password_path = './password.txt'
@@ -11,6 +12,7 @@ def access():
 
     # 如果没有student_number.txt或者password.txt就要求用户输入学号与密码
     if not studentNumber_txt or not password_txt:
+        time.sleep(0.1)
         student_number = input('请输入学号:')
         password = input('请输入密码:')
     # 如果student_number.txt与password.txt都存在,就读取这两个文件中储存的学号密码

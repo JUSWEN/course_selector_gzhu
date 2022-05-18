@@ -1,6 +1,7 @@
 import json
 import re
 import sys
+import time
 import urllib.parse
 
 import selenium.webdriver
@@ -219,8 +220,9 @@ class gzhu_edgedriver:
                                          '已成功登录融合门户，但不能找到教务系统图标按钮！\n'
                                          '请重新运行程序！')
 
+                time.sleep(0.1)
                 input("程序运行结束，回车以退出程序")
-                sys.exit(0)
+                sys.exit()
         else:
             self.driver.execute_script(
                 "window.open('http://jwxt.gzhu.edu.cn/sso/driot4login')")
@@ -373,6 +375,7 @@ class gzhu_edgedriver:
 
                 i += 1
 
+            time.sleep(0.1)
             # jxbmc为教学班号，通过输入的教学班号找到对应的jxb_ids的内容
             jxbmc = input('请从上面的教学班中选择并复制粘贴要选择的教学班的教学班号\n'
                           '示例:(2021-2022-2)-131800701-1\n'
@@ -457,6 +460,7 @@ class gzhu_edgedriver:
 
             self.logger.info('选课内容添加成功！')
 
+            time.sleep(0.1)
             check_break = input('是否继续添加选课内容[y/n]?:')
             if check_break == 'n':
                 break
@@ -468,6 +472,6 @@ class gzhu_edgedriver:
         else:
             self.logger.info('选课系统未开放,无法录入抢课信息，请在选课系统开放后再运行此脚本')
 
+            time.sleep(0.1)
             input("程序运行结束，回车以退出程序")
-
             sys.exit()

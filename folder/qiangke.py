@@ -89,7 +89,8 @@ def qiangke(student_number, delay):
 
         logger.info('抢课结束！')
 
+        time.sleep(0.1)
         input("程序运行结束，回车以退出程序")
-        sys.exit(0)
+        sys.exit()
     except Exception as e:
         logger.error(e)
