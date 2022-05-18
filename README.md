@@ -35,6 +35,7 @@ pip3 install requests
 pip3 install selenium
 pip3 install aiohttp
 pip3 install webdriver-manager
+pip3 install loguru
 ```
 
 #### 运行course_selector_gzhu.py
