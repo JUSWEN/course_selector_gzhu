@@ -8,6 +8,9 @@ from folder import (access_maintainCookie, check_creatData, qiangke,
 if __name__ == "__main__":
     freeze_support()
 
+    file = open("course_selector_gzhu.log", "w")
+    file.close()
+
     if input("是否开启无头浏览器模式[y/n](正常使用需要开启，直接回车则默认开启）") == 'n':
         headless = 'n'
     else:
