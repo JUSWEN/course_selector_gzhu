@@ -219,14 +219,14 @@ class gzhu_edgedriver:
 
                 input("程序运行结束，回车以退出程序")
                 sys.exit(0)
-
-            title = self.driver.title
-            if title == '融合门户':
-                windows = self.driver.window_handles
-                self.driver.switch_to.window(windows[-1])
         else:
             self.driver.execute_script(
                 "window.open('http://jwxt.gzhu.edu.cn/sso/driot4login')")
+
+        title = self.driver.title
+        if title == '融合门户':
+            windows = self.driver.window_handles
+            self.driver.switch_to.window(windows[-1])
 
         try:
             self.wdwait.until(
