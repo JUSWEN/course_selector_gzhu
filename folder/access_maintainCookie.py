@@ -36,7 +36,7 @@ def access_maintainCookie(student_number, password, headless):
             break
         except Exception as e:
             logger.error(e)
-            logger.error("cookie updating failed！")
+            logger.error("Cookie更新失败！")
 
     # retry为0表示不需要重试，retry为1表示需要重试
     retry = 0
@@ -62,6 +62,6 @@ def access_maintainCookie(student_number, password, headless):
             gzhuEd.save_cookie()
         except Exception as e:
             logger.error(e)
-            logger.error('cookies updating failed!')
+            logger.error('Cookie更新失败！')
 
             retry = 1

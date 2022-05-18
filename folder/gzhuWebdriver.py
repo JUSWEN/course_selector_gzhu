@@ -249,7 +249,7 @@ class gzhu_edgedriver:
             # 将字符串cookie保存至txt文件中
             file.write(jsoncookies)
 
-        self.logger.info('cookies updated')
+        self.logger.info('Cookie已更新！')
 
     def select_courses(self):
         '''选课并保存选课信息'''

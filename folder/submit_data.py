@@ -61,7 +61,7 @@ async def submit_data(student_number, data, jar, logger):
 
                         return 'cookie out of date'
                     else:
-                        logger.info(contant)
+                        logger.warning(contant)
                         await logger.complete()
 
                         await asyncio.sleep(5)
