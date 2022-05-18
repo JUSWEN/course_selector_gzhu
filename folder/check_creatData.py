@@ -5,7 +5,7 @@ from .gzhuWebdriver import gzhu_edgedriver
 
 
 def check_creatData(headless):
-    logger = logger_configure.logger_configure()
+    logger = logger_configure.get_logger()
 
     data_txt = os.path.exists('./data.txt')
 

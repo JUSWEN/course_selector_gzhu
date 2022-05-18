@@ -5,7 +5,7 @@ from .gzhuWebdriver import gzhu_edgedriver
 
 
 def access_maintainCookie(student_number, password, headless):
-    logger = logger_configure.logger_configure()
+    logger = logger_configure.get_logger()
 
     # pageName用来表示当前页面标题
     # 0表示初始页面，Unified Identity Authentication页面, 统一身份认证页面和其它页面

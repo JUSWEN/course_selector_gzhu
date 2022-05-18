@@ -10,7 +10,7 @@ from . import logger_configure, submit_data
 
 
 def qiangke(student_number, delay):
-    logger = logger_configure.logger_configure()
+    logger = logger_configure.get_logger()
 
     time.sleep(delay)
 

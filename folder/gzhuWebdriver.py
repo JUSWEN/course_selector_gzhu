@@ -29,7 +29,7 @@ class gzhu_edgedriver:
         If and only if headless == "y", the browser is headless\n
         If and only if eager == 'y', page load strategy is eager
         """
-        self.logger = logger_configure.logger_configure()
+        self.logger = logger_configure.get_logger()
         self.student_number = student_number
         self.password = password
 
