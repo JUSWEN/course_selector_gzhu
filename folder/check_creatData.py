@@ -26,5 +26,5 @@ def check_creatData(headless):
         gzhuEd.select_courses()
     # 如果有抢课信息表单，则继续运行程序
     else:
-        logger.info('已存在抢课信息，如需重新选择抢课信息，请停止运行程序\n'
-                    '并删除此脚本当前目录下的"data.txt"文件,然后重新运行程序')
+        logger.info('已存在抢课信息，如需重新选择抢课信息，请停止运行程序')
+        logger.info('然后删除此程序同级目录下的"data.txt"文件,最后重新运行程序')

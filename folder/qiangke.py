@@ -68,7 +68,7 @@ def qiangke(student_number, delay):
 
             for results in result_list:
                 for result in results:
-                    if result.result() == 'cookie out of date':
+                    if result.result() == 'Cookie已失效':
                         i = 1
 
                         break

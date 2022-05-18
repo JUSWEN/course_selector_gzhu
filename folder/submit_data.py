@@ -53,13 +53,13 @@ async def submit_data(student_number, data, jar, logger):
                         logger.info('恭喜你，选课成功！')
                         await logger.complete()
                     elif contant == 'tml>':
-                        logger.info('cookie已失效！请等待cookie更新')
+                        logger.info('Cookie已失效，请等待Cookie更新!')
                         await logger.complete()
 
                         # 等待另一个进程更新cookie
                         await asyncio.sleep(10)
 
-                        return 'cookie out of date'
+                        return 'Cookie已失效'
                     else:
                         logger.warning(contant)
                         await logger.complete()
