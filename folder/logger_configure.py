@@ -1,7 +1,7 @@
 import logging
 
 
-def logger_config():
+def logger_configure():
     logger = logging.getLogger(__name__)
 
     c_handler = logging.StreamHandler()

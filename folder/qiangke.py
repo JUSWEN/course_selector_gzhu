@@ -6,11 +6,11 @@ import time
 
 from requests.cookies import RequestsCookieJar
 
-from . import logger_config, submit_data
+from . import logger_configure, submit_data
 
 
 def qiangke(student_number, delay):
-    logger = logger_config.logger_config()
+    logger = logger_configure.logger_configure()
 
     time.sleep(delay)
 

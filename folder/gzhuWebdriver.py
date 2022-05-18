@@ -13,7 +13,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
 
-from . import logger_config
+from . import logger_configure
 
 
 class gzhu_edgedriver:
@@ -29,7 +29,7 @@ class gzhu_edgedriver:
         If and only if headless == "y", the browser is headless\n
         If and only if eager == 'y', page load strategy is eager
         """
-        self.logger = logger_config.logger_config()
+        self.logger = logger_configure.logger_configure()
         self.student_number = student_number
         self.password = password
 

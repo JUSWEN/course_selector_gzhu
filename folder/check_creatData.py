@@ -1,11 +1,11 @@
 import os
 
-from . import logger_config, studentNumber_password
+from . import logger_configure, studentNumber_password
 from .gzhuWebdriver import gzhu_edgedriver
 
 
 def check_creatData(headless):
-    logger = logger_config.logger_config()
+    logger = logger_configure.logger_configure()
 
     data_txt = os.path.exists('./data.txt')
 
