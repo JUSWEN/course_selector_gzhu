@@ -1,19 +1,20 @@
 import asyncio
 import json
-import logging
 import os
 import sys
 import time
 
 from requests.cookies import RequestsCookieJar
 
-from . import submit_data
+from . import logger_config, submit_data
 
 
 def qiangke(student_number, delay):
+    logger = logger_config.logger_config()
+
     time.sleep(delay)
 
-    logging.info('开始抢课！')
+    logger.info('开始抢课！')
 
     cookie_txt = os.path.exists('./cookies.txt')
 
@@ -49,7 +50,8 @@ def qiangke(student_number, delay):
             while i < len(datas) - 1:
                 data = eval(datas[i])
 
-                coroutine = submit_data.submit_data(student_number, data, jar)
+                coroutine = submit_data.submit_data(student_number, data, jar,
+                                                    logger)
                 task = asyncio.ensure_future(coroutine)
                 tasks.append(task)
 
@@ -84,7 +86,7 @@ def qiangke(student_number, delay):
 
     loop.close()
 
-    logging.info('抢课结束！')
+    logger.info('抢课结束！')
 
     input("程序运行结束，回车以退出程序")
     sys.exit(0)

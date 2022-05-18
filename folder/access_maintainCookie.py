@@ -1,10 +1,12 @@
-import logging
 import time
 
+from . import logger_config
 from .gzhuWebdriver import gzhu_edgedriver
 
 
 def access_maintainCookie(student_number, password, headless):
+    logger = logger_config.logger_config()
+
     # pageName用来表示当前页面标题
     # 0表示初始页面，Unified Identity Authentication页面, 统一身份认证页面和其它页面
     pageName = 0
@@ -33,8 +35,8 @@ def access_maintainCookie(student_number, password, headless):
 
             break
         except Exception as e:
-            logging.error(e)
-            logging.error("cookie updating failed！")
+            logger.error(e)
+            logger.error("cookie updating failed！")
 
     # retry为0表示不需要重试，retry为1表示需要重试
     retry = 0
@@ -59,7 +61,7 @@ def access_maintainCookie(student_number, password, headless):
             driver.switch_to.window(windows[-1])
             gzhuEd.save_cookie()
         except Exception as e:
-            logging.error(e)
-            logging.error('cookies updating failed!')
+            logger.error(e)
+            logger.error('cookies updating failed!')
 
             retry = 1

@@ -1,6 +1,5 @@
 # 适用于广大新版教务系统
 
-import logging
 from multiprocessing import Process, freeze_support
 
 from folder import (access_maintainCookie, check_creatData, qiangke,
@@ -9,25 +8,10 @@ from folder import (access_maintainCookie, check_creatData, qiangke,
 if __name__ == "__main__":
     freeze_support()
 
-    if input("是否开启debug模式[y/n](直接回车则不开启）") == 'y':
-        if input("是否开启无头浏览器[y/n](直接回车则不开启）") == 'y':
-            headless = 'y'
-        else:
-            headless = 'n'
-
-        if input("是否设置Logging模式为DEBUG[y/n](直接回车则不设置)") == 'y':
-            logging.basicConfig(
-                level=logging.DEBUG,
-                format='%(processName)s - %(levelname)s - %(message)s')
-        else:
-            logging.basicConfig(
-                level=logging.INFO,
-                format='%(processName)s - %(levelname)s - %(message)s')
+    if input("是否开启无头浏览器模式[y/n](正常使用需要开启，直接回车则默认开启）") == 'n':
+        headless = 'n'
     else:
         headless = 'y'
-        logging.basicConfig(
-            level=logging.INFO,
-            format='%(processName)s - %(levelname)s - %(message)s')
 
     check_creatData.check_creatData(headless)
 
