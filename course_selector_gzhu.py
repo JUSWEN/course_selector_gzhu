@@ -2,13 +2,12 @@
 
 from multiprocessing import Process, freeze_support
 
-from folder import (access_maintainCookie, check_creatData, logger_configure,
-                    qiangke, studentNumber_password)
+from folder import (access_maintainCookie, check_creatData, logger_configure, qiangke, studentNumber_password)
 
 if __name__ == "__main__":
     freeze_support()
 
-    logger_configure.logger_configure()
+    logger_configure.configure_logger()
 
     if input("是否开启无头浏览器模式[y/n](正常使用需要开启，直接回车则默认开启）") == 'n':
         headless = 'n'

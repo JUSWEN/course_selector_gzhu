@@ -1,31 +1,24 @@
-import logging
+import sys
+
+from loguru import logger
 
 
-def logger_configure():
+def configure_logger():
     file_name = "course_selector_gzhu.log"
 
     file = open(file_name, "w")
     file.close()
 
-    logger = logging.getLogger(__name__)
-
-    logger.setLevel(logging.DEBUG)
-
-    c_handler = logging.StreamHandler()
-    f_handler = logging.FileHandler(filename=file_name, mode="a")
-    c_handler.setLevel(logging.INFO)
-    f_handler.setLevel(logging.DEBUG)
-
-    c_format = logging.Formatter(
-        '%(processName)s - %(levelname)s - %(message)s')
-    f_format = logging.Formatter(
-        '%(asctime)s - %(processName)s - %(levelname)s - %(message)s')
-    c_handler.setFormatter(c_format)
-    f_handler.setFormatter(f_format)
-
-    logger.addHandler(c_handler)
-    logger.addHandler(f_handler)
+    logger.add(sys.stderr,
+               format="{process} {level} {message}",
+               filter="my_module",
+               level="INFO")
+    logger.add(file_name,
+               format="{time} {process} {level} {message}",
+               enqueue=True,
+               encoding='utf-8',
+               level="DEBUG")
 
 
 def get_logger():
-    return logging.getLogger(__name__)
+    return logger

@@ -28,12 +28,14 @@ async def submit_data(student_number, data, jar, logger):
                 contant1 = contant[8:15]
                 if contant1 == '选课时间已过！':
                     logger.info('选课时间已过！')
+                    await logger.complete()
 
                     await asyncio.sleep(5)
                     # 选课服务器暂未开放，重新运行程序发送表单
                     await submit_data(student_number, data, jar)
                 elif contant1 == '出现未知异常，':
                     logger.info('服务器出现未知异常')
+                    await logger.complete()
 
                     await asyncio.sleep(5)
                     # 服务器出现未知异常，重新运行程序发送表单
@@ -43,12 +45,16 @@ async def submit_data(student_number, data, jar, logger):
 
                     if contant == '-1"}':
                         logger.info('对不起，该教学班已无余量，不可选！')
+                        await logger.complete()
                     elif contant == '"0"}':
                         logger.info('所选教学班的上课时间与其他教学班有冲突！')
+                        await logger.complete()
                     elif contant == '"1"}':
                         logger.info('恭喜你，选课成功！')
+                        await logger.complete()
                     elif contant == 'tml>':
                         logger.info('cookie已失效！请等待cookie更新')
+                        await logger.complete()
 
                         # 等待另一个进程更新cookie
                         await asyncio.sleep(10)
@@ -56,6 +62,7 @@ async def submit_data(student_number, data, jar, logger):
                         return 'cookie out of date'
                     else:
                         logger.info(contant)
+                        await logger.complete()
 
                         await asyncio.sleep(5)
                         # 未知内容，重新运行程序发送表单
@@ -66,6 +73,7 @@ async def submit_data(student_number, data, jar, logger):
 
     except Exception as e:
         logger.error(e)
+        await logger.complete()
 
         await asyncio.sleep(5)
         # 未知错误，重新运行程序发送表单
