@@ -5,13 +5,16 @@ from . import studentNumber_password
 from .gzhuWebdriver import gzhu_edgedriver
 
 
-def check_creatData():
+def check_creatData(headless):
     data_txt = os.path.exists('./data.txt')
 
     # 如果没有data.txt选课信息表单，就要求用户输入选课信息，生成表单
     if not data_txt:
         student_number, password = studentNumber_password.access()
-        gzhuEd = gzhu_edgedriver(student_number, password, eager='n')
+        gzhuEd = gzhu_edgedriver(student_number,
+                                 password,
+                                 headless=headless,
+                                 eager='n')
 
         gzhuEd.login_portal()
         gzhuEd.login_academicSystem()

@@ -4,11 +4,11 @@ import time
 from .gzhuWebdriver import gzhu_edgedriver
 
 
-def access_maintainCookie(student_number, password):
+def access_maintainCookie(student_number, password, headless):
     # pageName用来表示当前页面标题
     # 0表示初始页面，Unified Identity Authentication页面, 统一身份认证页面和其它页面
     pageName = 0
-    gzhuEd = gzhu_edgedriver(student_number, password)
+    gzhuEd = gzhu_edgedriver(student_number, password, headless=headless)
     driver = gzhuEd.get_driver()
 
     while True:

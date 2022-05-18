@@ -10,15 +10,26 @@ if __name__ == "__main__":
     freeze_support()
 
     if input("是否开启debug模式[y/n](直接回车则不开启）") == 'y':
-        logging.basicConfig(
-            level=logging.DEBUG,
-            format='%(processName)s - %(levelname)s - %(message)s')
+        if input("是否开启无头浏览器[y/n](直接回车则不开启）") == 'y':
+            headless = 'y'
+        else:
+            headless = 'n'
+
+        if input("是否设置Logging模式为DEBUG[y/n](直接回车则不设置)") == 'y':
+            logging.basicConfig(
+                level=logging.DEBUG,
+                format='%(processName)s - %(levelname)s - %(message)s')
+        else:
+            logging.basicConfig(
+                level=logging.INFO,
+                format='%(processName)s - %(levelname)s - %(message)s')
     else:
+        headless = 'y'
         logging.basicConfig(
             level=logging.INFO,
             format='%(processName)s - %(levelname)s - %(message)s')
 
-    check_creatData.check_creatData()
+    check_creatData.check_creatData(headless)
 
     student_number, password = studentNumber_password.access()
 
@@ -35,7 +46,7 @@ if __name__ == "__main__":
     # 创建两个进程，一个用更新cookie以及维持会话， 一个用来发送表单抢课
     process = [
         Process(target=access_maintainCookie.access_maintainCookie,
-                args=(student_number, password)),
+                args=(student_number, password, headless)),
         Process(target=qiangke.qiangke, args=(student_number, delay))
     ]
 
