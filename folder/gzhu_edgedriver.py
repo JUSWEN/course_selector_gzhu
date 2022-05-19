@@ -215,8 +215,8 @@ class gzhu_edgedriver:
                 else:
                     logger.critical('已成功登录融合门户，但不能找到教务系统图标按钮！')
 
-                logger.info("程序将于10秒后自动结束")
-                time.sleep(10)
+                time.sleep(0.1)
+                input("程序运行结束，回车以退出程序")
                 sys.exit()
         else:
             self.driver.execute_script(
