@@ -36,17 +36,15 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Install packages
         run: |
-          python -m pip install --upgrade pip
           pip3 install -r requirements.txt
           pip3 install pyinstaller
 
       - name: Run pyinstaller
-        run: |
-          pyinstaller -i ./assets/广州大学校徽.ico course_selector_gzhu.py
-          compact /c /s ./dist ./course_selector_gzhu.zip
+        run: 
+          pyinstaller -F -i ./assets/广州大学校徽.ico course_selector_gzhu.py
       
       - name: Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "./course_selector_gzhu.zip"
+          artifacts: "./dist/course_selector_gzhu.exe"
           token: ${{ secrets.token }}
