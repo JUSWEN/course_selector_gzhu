@@ -1,12 +1,12 @@
 import os
 
-from . import logger_configure, studentNumber_password
+from loguru import logger
+
+from . import studentNumber_password
 from .gzhu_edgedriver import gzhu_edgedriver
 
 
 def check_creatData(headless):
-    logger = logger_configure.get_logger()
-
     data_txt = os.path.exists('./data.txt')
 
     # 如果没有data.txt选课信息表单，就要求用户输入选课信息，生成表单

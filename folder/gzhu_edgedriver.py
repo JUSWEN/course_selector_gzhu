@@ -5,6 +5,7 @@ import time
 import urllib.parse
 
 import selenium.webdriver
+from loguru import logger
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
@@ -13,8 +14,6 @@ from selenium.webdriver.edge.service import Service
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
-
-from . import logger_configure
 
 
 class gzhu_edgedriver:
@@ -30,7 +29,6 @@ class gzhu_edgedriver:
         If and only if headless == "y", the browser is headless\n
         If and only if eager == 'y', page load strategy is eager
         """
-        self.logger = logger_configure.get_logger()
         self.student_number = student_number
         self.password = password
 
@@ -134,7 +132,7 @@ class gzhu_edgedriver:
                     break
 
             except Exception as e:
-                self.logger.error(e)
+                logger.error(e)
 
                 continue
 
@@ -189,7 +187,7 @@ class gzhu_edgedriver:
                     break
 
             except Exception as e:
-                self.logger.error(e)
+                logger.error(e)
 
                 continue
 
@@ -203,22 +201,22 @@ class gzhu_edgedriver:
 
             check = re.findall('融合门户', page)
             if len(check):
-                self.logger.info('融合门户登录成功！')
+                logger.info('融合门户登录成功！')
 
             try:
                 self.driver.find_element(By.XPATH,
                                          "//a[@title='教务系统']/img").click()
             except Exception as e:
-                self.logger.error(e)
+                logger.error(e)
 
                 if not len(check):
-                    self.logger.critical('融合门户登录失败！\n'
-                                         '请检查学号密码是否输入正确！\n'
-                                         '并重新运行程序！')
+                    logger.critical('融合门户登录失败！\n'
+                                    '请检查学号密码是否输入正确！\n'
+                                    '并重新运行程序！')
                 else:
-                    self.logger.critical('未知错误\n'
-                                         '已成功登录融合门户，但不能找到教务系统图标按钮！\n'
-                                         '请重新运行程序！')
+                    logger.critical('未知错误\n'
+                                    '已成功登录融合门户，但不能找到教务系统图标按钮！\n'
+                                    '请重新运行程序！')
 
                 time.sleep(0.1)
                 input("程序运行结束，回车以退出程序")
@@ -251,7 +249,7 @@ class gzhu_edgedriver:
             # 将字符串cookie保存至txt文件中
             file.write(jsoncookies)
 
-        self.logger.info('Cookie已更新！')
+        logger.info('Cookie已更新！')
 
     def select_courses(self):
         '''选课并保存选课信息'''
@@ -348,11 +346,11 @@ class gzhu_edgedriver:
             jxb_numbers = re.findall('教学班个数.*">([1-9])</font>', page)
 
             if not len(jxb_numbers):
-                self.logger.error('未找到教学班信息，请检查信息是否输入正确\n'
-                                  '教学班名称示例:(180111005)地理教学技能 - 1.0 学分\n'
-                                  '注意！名称的左右不要留有空格！\n'
-                                  '注意！请检查课程类别是否正确！\n'
-                                  '请在程序提示后，重新输入信息！')
+                logger.error('未找到教学班信息，请检查信息是否输入正确\n'
+                             '教学班名称示例:(180111005)地理教学技能 - 1.0 学分\n'
+                             '注意！名称的左右不要留有空格！\n'
+                             '注意！请检查课程类别是否正确！\n'
+                             '请在程序提示后，重新输入信息！')
                 continue
 
             i = 1
@@ -369,7 +367,7 @@ class gzhu_edgedriver:
                 course_number = self.driver.find_element(
                     By.XPATH, f"//tr[{i}]]/td[@class='jxbmc']").text
 
-                self.logger.info(
+                logger.info(
                     f'教学班{i},老师:{teacher},上课时间:{course_time},教学班号:{course_number}\n'
                 )
 
@@ -458,7 +456,7 @@ class gzhu_edgedriver:
             # i=0表示不是第一循环
             i = 0
 
-            self.logger.info('选课内容添加成功！')
+            logger.info('选课内容添加成功！')
 
             time.sleep(0.1)
             check_break = input('是否继续添加选课内容[y/n]?:')
@@ -468,9 +466,9 @@ class gzhu_edgedriver:
         self.driver.quit()
 
         if j:
-            self.logger.info('data表单准备完成,抢课信息录入完毕。')
+            logger.info('data表单准备完成,抢课信息录入完毕。')
         else:
-            self.logger.info('选课系统未开放,无法录入抢课信息，请在选课系统开放后再运行此脚本')
+            logger.info('选课系统未开放,无法录入抢课信息，请在选课系统开放后再运行此脚本')
 
             time.sleep(0.1)
             input("程序运行结束，回车以退出程序")

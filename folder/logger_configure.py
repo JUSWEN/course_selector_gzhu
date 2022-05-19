@@ -22,7 +22,3 @@ def configure_logger():
                enqueue=True,
                encoding='utf-8',
                level="DEBUG")
-
-
-def get_logger():
-    return logger

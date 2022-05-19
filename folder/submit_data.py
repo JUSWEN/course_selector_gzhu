@@ -1,9 +1,10 @@
 import asyncio
 
 import aiohttp
+from loguru import logger
 
 
-async def submit_data(student_number, data, jar, logger):
+async def submit_data(student_number, data, jar):
     headers = {
         "User-Agent":
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36 Edg/96.0.1054.62 ",
