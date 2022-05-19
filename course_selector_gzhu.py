@@ -41,8 +41,8 @@ if __name__ == "__main__":
     # 创建两个进程，一个用更新cookie以及维持会话， 一个用来发送表单抢课
     process = [
         Process(target=access_maintainCookie.access_maintainCookie,
-                args=(student_number, password, headless)),
-        Process(target=qiangke.qiangke, args=(student_number, delay))
+                args=(student_number, password, headless, logger)),
+        Process(target=qiangke.qiangke, args=(student_number, delay, logger))
     ]
 
     [p.start() for p in process]

@@ -2,10 +2,9 @@ import asyncio
 import traceback
 
 import aiohttp
-from loguru import logger
 
 
-async def submit_data(student_number, data, jar):
+async def submit_data(student_number, data, jar, logger):
     headers = {
         "User-Agent":
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36 Edg/96.0.1054.62 ",
@@ -34,14 +33,14 @@ async def submit_data(student_number, data, jar):
 
                     await asyncio.sleep(5)
                     # 选课服务器暂未开放，重新运行程序发送表单
-                    await submit_data(student_number, data, jar)
+                    await submit_data(student_number, data, jar, logger)
                 elif contant1 == '出现未知异常，':
                     logger.info('服务器出现未知异常')
                     await logger.complete()
 
                     await asyncio.sleep(5)
                     # 服务器出现未知异常，重新运行程序发送表单
-                    await submit_data(student_number, data, jar)
+                    await submit_data(student_number, data, jar, logger)
                 else:
                     contant = contant[-4:]
 
@@ -68,10 +67,10 @@ async def submit_data(student_number, data, jar):
 
                         await asyncio.sleep(5)
                         # 未知内容，重新运行程序发送表单
-                        await submit_data(student_number, data, jar)
+                        await submit_data(student_number, data, jar, logger)
     except asyncio.TimeoutError:
         # 超时服务器仍未返回值，则重新运行程序发送表单
-        await submit_data(student_number, data, jar)
+        await submit_data(student_number, data, jar, logger)
 
     except Exception:
         logger.error(traceback.format_exc())
@@ -79,4 +78,4 @@ async def submit_data(student_number, data, jar):
 
         await asyncio.sleep(5)
         # 未知错误，重新运行程序发送表单
-        await submit_data(student_number, data, jar)
+        await submit_data(student_number, data, jar, logger)

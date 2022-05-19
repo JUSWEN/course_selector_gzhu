@@ -6,7 +6,6 @@ import traceback
 import urllib.parse
 
 import selenium.webdriver
-from loguru import logger
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
@@ -19,7 +18,12 @@ from webdriver_manager.microsoft import EdgeChromiumDriverManager
 
 class gzhu_edgedriver:
 
-    def __init__(self, student_number, password, headless='y', eager='y'):
+    def __init__(self,
+                 student_number,
+                 password,
+                 logger,
+                 headless='y',
+                 eager='y'):
         """
         Args:
             student_number (str)\n
@@ -30,6 +34,7 @@ class gzhu_edgedriver:
         If and only if headless == "y", the browser is headless\n
         If and only if eager == 'y', page load strategy is eager
         """
+        self.logger = logger
         self.student_number = student_number
         self.password = password
 
@@ -133,7 +138,7 @@ class gzhu_edgedriver:
                     break
 
             except Exception:
-                logger.error(traceback.format_exc())
+                self.logger.error(traceback.format_exc())
 
                 continue
 
@@ -188,7 +193,7 @@ class gzhu_edgedriver:
                     break
 
             except Exception:
-                logger.error(traceback.format_exc())
+                self.logger.error(traceback.format_exc())
 
                 continue
 
@@ -202,18 +207,18 @@ class gzhu_edgedriver:
 
             check = re.findall('融合门户', page)
             if len(check):
-                logger.info('融合门户登录成功！')
+                self.logger.info('融合门户登录成功！')
 
             try:
                 self.driver.find_element(By.XPATH,
                                          "//a[@title='教务系统']/img").click()
             except Exception:
-                logger.error(traceback.format_exc())
+                self.logger.error(traceback.format_exc())
 
                 if not len(check):
-                    logger.critical('融合门户登录失败！请检查学号密码是否输入正确！')
+                    self.logger.critical('融合门户登录失败！请检查学号密码是否输入正确！')
                 else:
-                    logger.critical('已成功登录融合门户，但不能找到教务系统图标按钮！')
+                    self.logger.critical('已成功登录融合门户，但不能找到教务系统图标按钮！')
 
                 time.sleep(0.1)
                 input("程序运行结束，回车以退出程序")
@@ -246,7 +251,7 @@ class gzhu_edgedriver:
             # 将字符串cookie保存至txt文件中
             file.write(jsoncookies)
 
-        logger.info('Cookie已更新！')
+        self.logger.info('Cookie已更新！')
 
     def select_courses(self):
         '''选课并保存选课信息'''
@@ -283,10 +288,10 @@ class gzhu_edgedriver:
                 if len(check):
                     break
 
-            logger.info(('=' * 11 + '*') * 5)
-            logger.info('示例:(180111005)地理教学技能 - 1.0 学分')
-            logger.info('课程名的左右不要留有空格！')
-            logger.info(('=' * 11 + '*') * 5)
+            self.logger.info(('=' * 11 + '*') * 5)
+            self.logger.info('示例:(180111005)地理教学技能 - 1.0 学分')
+            self.logger.info('课程名的左右不要留有空格！')
+            self.logger.info(('=' * 11 + '*') * 5)
 
             time.sleep(0.1)
             # 通过课程名称进行选课操作
@@ -302,10 +307,10 @@ class gzhu_edgedriver:
             except TimeoutException:
                 pass
 
-            logger.info(('=' * 11 + '*') * 5)
-            logger.info('主修课程请输入1，板块课体育请输入2')
-            logger.info('通识选修请输入3，其他特殊课程请输入4')
-            logger.info(('=' * 11 + '*') * 5)
+            self.logger.info(('=' * 11 + '*') * 5)
+            self.logger.info('主修课程请输入1，板块课体育请输入2')
+            self.logger.info('通识选修请输入3，其他特殊课程请输入4')
+            self.logger.info(('=' * 11 + '*') * 5)
 
             time.sleep(0.1)
             course_classification = int(input("请输入课程类别："))
@@ -352,18 +357,18 @@ class gzhu_edgedriver:
             jxb_numbers = re.findall('教学班个数.*">([1-9])</font>', page)
 
             if not len(jxb_numbers):
-                logger.error('未找到教学班信息')
-                logger.info(('=' * 11 + '*') * 5)
-                logger.info('请检查信息是否输入正确！请检查课程类别是否正确！')
-                logger.info('教学班名称示例:(180111005)地理教学技能 - 1.0 学分')
-                logger.info('名称的左右两边不要留有空格！')
-                logger.info(('=' * 11 + '*') * 5)
+                self.logger.error('未找到教学班信息')
+                self.logger.info(('=' * 11 + '*') * 5)
+                self.logger.info('请检查信息是否输入正确！请检查课程类别是否正确！')
+                self.logger.info('教学班名称示例:(180111005)地理教学技能 - 1.0 学分')
+                self.logger.info('名称的左右两边不要留有空格！')
+                self.logger.info(('=' * 11 + '*') * 5)
 
                 continue
 
             i = 1
 
-            logger.info("%" * 60)
+            self.logger.info("%" * 60)
             while i <= int(jxb_numbers[0]):
                 # 不同的教学班的信息在不同序号的tr标签下,依次打印各个教学班的信息
                 # 老师名字与职称
@@ -376,19 +381,19 @@ class gzhu_edgedriver:
                 course_number = self.driver.find_element(
                     By.XPATH, f"//tr[{i}]]/td[@class='jxbmc']").text
 
-                logger.info(
+                self.logger.info(
                     f'教学班{i},老师:{teacher},上课时间:{course_time},教学班号:{course_number}\n'
                 )
                 if i != int(jxb_numbers[0]):
-                    logger.info('-' * 60)
+                    self.logger.info('-' * 60)
 
                 i += 1
-            logger.info("%" * 60)
+            self.logger.info("%" * 60)
 
-            logger.info(('=' * 11 + '*') * 5)
-            logger.info('示例:(2021-2022-2)-131800701-1')
-            logger.info('教学班号的左右两边不要留有空格！')
-            logger.info(('=' * 11 + '*') * 5)
+            self.logger.info(('=' * 11 + '*') * 5)
+            self.logger.info('示例:(2021-2022-2)-131800701-1')
+            self.logger.info('教学班号的左右两边不要留有空格！')
+            self.logger.info(('=' * 11 + '*') * 5)
 
             time.sleep(0.1)
             # jxbmc为教学班号，通过输入的教学班号找到对应的jxb_ids的内容
@@ -471,7 +476,7 @@ class gzhu_edgedriver:
             # i=0表示不是第一循环
             i = 0
 
-            logger.info('选课内容添加成功！')
+            self.logger.info('选课内容添加成功！')
 
             time.sleep(0.1)
             check_break = input('是否继续添加选课内容[y/n]?:')
@@ -481,9 +486,9 @@ class gzhu_edgedriver:
         self.driver.quit()
 
         if j:
-            logger.info('data表单准备完成,抢课信息录入完毕。')
+            self.logger.info('data表单准备完成,抢课信息录入完毕。')
         else:
-            logger.info('选课系统未开放,无法录入抢课信息，请在选课系统开放后再运行此脚本')
+            self.logger.info('选课系统未开放,无法录入抢课信息，请在选课系统开放后再运行此脚本')
 
             time.sleep(0.1)
             input("程序运行结束，回车以退出程序")

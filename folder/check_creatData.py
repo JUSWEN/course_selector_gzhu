@@ -18,7 +18,8 @@ def check_creatData(headless):
             student_number, password = studentNumber_password.access()
             gzhuEd = gzhu_edgedriver(student_number,
                                      password,
-                                     headless=headless,
+                                     logger,
+                                     headless,
                                      eager='n')
 
             gzhuEd.login_portal()

@@ -5,13 +5,12 @@ import sys
 import time
 import traceback
 
-from loguru import logger
 from requests.cookies import RequestsCookieJar
 
 from . import submit_data
 
 
-def qiangke(student_number, delay):
+def qiangke(student_number, delay, logger):
     try:
         time.sleep(delay)
 
@@ -52,7 +51,7 @@ def qiangke(student_number, delay):
                     data = eval(datas[i])
 
                     coroutine = submit_data.submit_data(
-                        student_number, data, jar)
+                        student_number, data, jar, logger)
                     task = asyncio.ensure_future(coroutine)
                     tasks.append(task)
 

@@ -1,16 +1,15 @@
 import time
 import traceback
 
-from loguru import logger
-
 from .gzhu_edgedriver import gzhu_edgedriver
 
 
-def access_maintainCookie(student_number, password, headless):
+def access_maintainCookie(student_number, password, headless, logger):
     # pageName用来表示当前页面标题
     # 0表示初始页面，Unified Identity Authentication页面, 统一身份认证页面和其它页面
     pageName = 0
-    gzhuEd = gzhu_edgedriver(student_number, password, headless=headless)
+    gzhuEd = gzhu_edgedriver(student_number, password, logger, headless)
+
     driver = gzhuEd.get_driver()
 
     while True:
