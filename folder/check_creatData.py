@@ -28,7 +28,7 @@ def check_creatData(headless):
             gzhuEd.save_cookie()
 
             gzhuEd.select_courses()
-        except:
+        except Exception:
             logger.error(traceback.format_exc())
 
             time.sleep(0.1)

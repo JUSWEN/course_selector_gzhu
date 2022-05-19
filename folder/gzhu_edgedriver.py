@@ -132,7 +132,7 @@ class gzhu_edgedriver:
                 if not logout_mark and login_mark:
                     break
 
-            except:
+            except Exception:
                 logger.error(traceback.format_exc())
 
                 continue
@@ -187,7 +187,7 @@ class gzhu_edgedriver:
                 if not logout_mark and login_mark:
                     break
 
-            except:
+            except Exception:
                 logger.error(traceback.format_exc())
 
                 continue
@@ -207,7 +207,7 @@ class gzhu_edgedriver:
             try:
                 self.driver.find_element(By.XPATH,
                                          "//a[@title='教务系统']/img").click()
-            except:
+            except Exception:
                 logger.error(traceback.format_exc())
 
                 if not len(check):

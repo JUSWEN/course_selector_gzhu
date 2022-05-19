@@ -34,7 +34,7 @@ def access_maintainCookie(student_number, password, headless):
                 gzhuEd.save_cookie()
 
             break
-        except:
+        except Exception:
             logger.error("Cookie更新失败！")
             logger.error(traceback.format_exc())
 
@@ -60,7 +60,7 @@ def access_maintainCookie(student_number, password, headless):
 
             driver.switch_to.window(windows[-1])
             gzhuEd.save_cookie()
-        except:
+        except Exception:
             logger.error('Cookie更新失败！')
             logger.error(traceback.format_exc())
 
