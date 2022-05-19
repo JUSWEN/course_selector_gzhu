@@ -353,7 +353,7 @@ class gzhu_edgedriver:
 
             i = 1
 
-            logger.info("%"*60)
+            logger.info("%" * 60)
             while i <= int(jxb_numbers[0]):
                 # 不同的教学班的信息在不同序号的tr标签下,依次打印各个教学班的信息
                 # 老师名字与职称
@@ -370,10 +370,10 @@ class gzhu_edgedriver:
                     f'教学班{i},老师:{teacher},上课时间:{course_time},教学班号:{course_number}\n'
                 )
                 if i != int(jxb_numbers[0]):
-                    logger.info('-'*60)
+                    logger.info('-' * 60)
 
                 i += 1
-            logger.info("%"*60)
+            logger.info("%" * 60)
 
             logger.info(('=' * 11 + '*') * 5)
             logger.info('请从上面的教学班中选择并复制粘贴要选择的教学班的教学班号')
