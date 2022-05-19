@@ -42,7 +42,7 @@ jobs:
       - name: Run pyinstaller
         run: |
           pyinstaller -i ./assets/广州大学校徽.ico course_selector_gzhu.py
-          makecab ./dist/course_selector_gzhu/ ./course_selector_gzhu.zip
+          makecab ./dist ./course_selector_gzhu.zip
       
       - name: Release
         uses: ncipollo/release-action@v1
