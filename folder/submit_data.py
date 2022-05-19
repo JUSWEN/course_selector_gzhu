@@ -1,4 +1,5 @@
 import asyncio
+import traceback
 
 import aiohttp
 from loguru import logger
@@ -72,8 +73,8 @@ async def submit_data(student_number, data, jar):
         # 超时服务器仍未返回值，则重新运行程序发送表单
         await submit_data(student_number, data, jar)
 
-    except Exception as e:
-        logger.error(e)
+    except Exception:
+        logger.error(traceback.format_exc())
         await logger.complete()
 
         await asyncio.sleep(5)
