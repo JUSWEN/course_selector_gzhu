@@ -15,7 +15,7 @@ if __name__ == "__main__":
     logger.info("#" * 26 + "开始运行" + "#" * 26)
 
     time.sleep(0.1)
-    if input("是否开启无头浏览器模式[y/n](正常使用需要开启，直接回车则默认开启）") == 'n':
+    if input("是否开启无头浏览器模式[y/n](正常使用需要开启，直接回车则默认开启):") == 'n':
         headless = 'n'
     else:
         headless = 'y'

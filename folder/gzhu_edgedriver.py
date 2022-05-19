@@ -392,7 +392,7 @@ class gzhu_edgedriver:
 
             time.sleep(0.1)
             # jxbmc为教学班号，通过输入的教学班号找到对应的jxb_ids的内容
-            jxbmc = input('请从上面的教学班中选择并复制粘贴要选择的教学班的教学班号:')
+            jxbmc = input('请复制要选择的教学班的教学班号并粘贴于此处:')
 
             tobeprocessed_jxb_ids = self.driver.find_element(
                 By.XPATH,
