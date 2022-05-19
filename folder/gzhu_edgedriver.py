@@ -210,13 +210,9 @@ class gzhu_edgedriver:
                 logger.error(e)
 
                 if not len(check):
-                    logger.critical('融合门户登录失败！\n'
-                                    '请检查学号密码是否输入正确！\n'
-                                    '并重新运行程序！')
+                    logger.critical('融合门户登录失败！请检查学号密码是否输入正确！')
                 else:
-                    logger.critical('未知错误\n'
-                                    '已成功登录融合门户，但不能找到教务系统图标按钮！\n'
-                                    '请重新运行程序！')
+                    logger.critical('已成功登录融合门户，但不能找到教务系统图标按钮！')
 
                 time.sleep(0.1)
                 input("程序运行结束，回车以退出程序")
@@ -346,15 +342,18 @@ class gzhu_edgedriver:
             jxb_numbers = re.findall('教学班个数.*">([1-9])</font>', page)
 
             if not len(jxb_numbers):
-                logger.error('未找到教学班信息，请检查信息是否输入正确\n'
-                             '教学班名称示例:(180111005)地理教学技能 - 1.0 学分\n'
-                             '注意！名称的左右不要留有空格！\n'
-                             '注意！请检查课程类别是否正确！\n'
-                             '请在程序提示后，重新输入信息！')
+                logger.error('未找到教学班信息')
+                logger.info(('=' * 11 + '*') * 5)
+                logger.info('请检查信息是否输入正确！请检查课程类别是否正确！')
+                logger.info('教学班名称示例:(180111005)地理教学技能 - 1.0 学分')
+                logger.info('名称的左右两边不要留有空格！')
+                logger.info(('=' * 11 + '*') * 5)
+
                 continue
 
             i = 1
 
+            logger.info("%"*60)
             while i <= int(jxb_numbers[0]):
                 # 不同的教学班的信息在不同序号的tr标签下,依次打印各个教学班的信息
                 # 老师名字与职称
@@ -370,14 +369,21 @@ class gzhu_edgedriver:
                 logger.info(
                     f'教学班{i},老师:{teacher},上课时间:{course_time},教学班号:{course_number}\n'
                 )
+                if i != int(jxb_numbers[0]):
+                    logger.info('-'*60)
 
                 i += 1
+            logger.info("%"*60)
+
+            logger.info(('=' * 11 + '*') * 5)
+            logger.info('请从上面的教学班中选择并复制粘贴要选择的教学班的教学班号')
+            logger.info('示例:(2021-2022-2)-131800701-1')
+            logger.info('教学班号的左右两边不要留有空格！')
+            logger.info(('=' * 11 + '*') * 5)
 
             time.sleep(0.1)
             # jxbmc为教学班号，通过输入的教学班号找到对应的jxb_ids的内容
-            jxbmc = input('请从上面的教学班中选择并复制粘贴要选择的教学班的教学班号\n'
-                          '示例:(2021-2022-2)-131800701-1\n'
-                          '注意！教学班号的左右不要留有空格！\n')
+            jxbmc = input()
 
             tobeprocessed_jxb_ids = self.driver.find_element(
                 By.XPATH,

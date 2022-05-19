@@ -6,19 +6,18 @@ from loguru import logger
 def configure_logger():
     file_name = "log.log"
 
-    file = open(file_name, "w")
-    file.close()
-
     logger.remove()
     logger.add(sys.stderr,
                colorize=True,
                enqueue=True,
-               format="<level>{level}</level>| "
-               "<magenta>{time:YYYY-MM-DD}</magenta>| "
+               format="<magenta>{process}</magenta>| "
+               "<level>{level}</level>| "
                "<level>{message}</level>",
                level="INFO")
-    logger.add(file_name,
-               format="{time}| {process}| {level}| {message}",
-               enqueue=True,
-               encoding='utf-8',
-               level="DEBUG")
+    logger.add(
+        file_name,
+        format="{time:MM-DD at HH:mm:ss}| {process}| {level}| {message}",
+        enqueue=True,
+        encoding='utf-8',
+        level="DEBUG",
+        rotation="2 days")

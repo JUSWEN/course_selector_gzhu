@@ -13,6 +13,9 @@ if __name__ == "__main__":
 
     logger_configure.configure_logger()
 
+    logger.info("#" * 26 + "开始运行" + "#" * 26)
+    time.sleep(0.1)
+
     if input("是否开启无头浏览器模式[y/n](正常使用需要开启，直接回车则默认开启）") == 'n':
         headless = 'n'
     else:
@@ -22,13 +25,14 @@ if __name__ == "__main__":
 
     student_number, password = studentNumber_password.access()
 
-    logger.info("请输入延时执行抢课的分钟数，建议延时至选课开始前3到4分钟(如果直接Enter则立即执行)")
+    logger.info(('=' * 11 + '*') * 5)
+    logger.info("建议延时至选课开始前3到4分钟时开始执行抢课进程")
     logger.info("用来抢课的进程将在延时的分钟数后开始执行")
-    logger.info("更新Cookie并维持登录的进程将立即执行")
+    logger.info("更新Cookie并维持登录状态的进程将立即执行")
+    logger.info(('=' * 11 + '*') * 5)
 
     time.sleep(0.1)
-
-    delay = input("请输入延时分钟数：")
+    delay = input("请输入延时分钟数(如果直接Enter则立即执行):")
 
     if not delay:
         delay = 0
