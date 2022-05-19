@@ -3,6 +3,7 @@ import json
 import os
 import sys
 import time
+import traceback
 
 from loguru import logger
 from requests.cookies import RequestsCookieJar
@@ -91,5 +92,5 @@ def qiangke(student_number, delay):
         time.sleep(0.1)
         input("程序运行结束，回车以退出程序")
         sys.exit()
-    except Exception as e:
-        logger.error(e)
+    except:
+        logger.error(traceback.format_exc())

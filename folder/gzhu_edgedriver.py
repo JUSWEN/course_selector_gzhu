@@ -2,6 +2,7 @@ import json
 import re
 import sys
 import time
+import traceback
 import urllib.parse
 
 import selenium.webdriver
@@ -131,8 +132,8 @@ class gzhu_edgedriver:
                 if not logout_mark and login_mark:
                     break
 
-            except Exception as e:
-                logger.error(e)
+            except:
+                logger.error(traceback.format_exc())
 
                 continue
 
@@ -186,8 +187,8 @@ class gzhu_edgedriver:
                 if not logout_mark and login_mark:
                     break
 
-            except Exception as e:
-                logger.error(e)
+            except:
+                logger.error(traceback.format_exc())
 
                 continue
 
@@ -206,8 +207,8 @@ class gzhu_edgedriver:
             try:
                 self.driver.find_element(By.XPATH,
                                          "//a[@title='教务系统']/img").click()
-            except Exception as e:
-                logger.error(e)
+            except:
+                logger.error(traceback.format_exc())
 
                 if not len(check):
                     logger.critical('融合门户登录失败！请检查学号密码是否输入正确！')
