@@ -1,4 +1,7 @@
 import os
+import sys
+import time
+import traceback
 
 from loguru import logger
 
@@ -11,19 +14,27 @@ def check_creatData(headless):
 
     # 如果没有data.txt选课信息表单，就要求用户输入选课信息，生成表单
     if not data_txt:
-        student_number, password = studentNumber_password.access()
-        gzhuEd = gzhu_edgedriver(student_number,
-                                 password,
-                                 headless=headless,
-                                 eager='n')
+        try:
+            student_number, password = studentNumber_password.access()
+            gzhuEd = gzhu_edgedriver(student_number,
+                                     password,
+                                     headless=headless,
+                                     eager='n')
 
-        gzhuEd.login_portal()
-        gzhuEd.login_academicSystem()
+            gzhuEd.login_portal()
+            gzhuEd.login_academicSystem()
 
-        studentNumber_password.save(student_number, password)
-        gzhuEd.save_cookie()
+            studentNumber_password.save(student_number, password)
+            gzhuEd.save_cookie()
 
-        gzhuEd.select_courses()
+            gzhuEd.select_courses()
+        except:
+            logger.error(traceback.format_exc())
+
+            time.sleep(0.1)
+            input("程序运行错误，回车以退出程序")
+            sys.exit()
+
     # 如果有抢课信息表单，则继续运行程序
     else:
         logger.info('~' * 60)

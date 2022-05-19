@@ -215,8 +215,8 @@ class gzhu_edgedriver:
                 else:
                     logger.critical('已成功登录融合门户，但不能找到教务系统图标按钮！')
 
-                time.sleep(0.1)
-                input("程序运行结束，回车以退出程序")
+                logger.info("程序将于10秒后自动结束")
+                time.sleep(10)
                 sys.exit()
         else:
             self.driver.execute_script(
@@ -283,10 +283,14 @@ class gzhu_edgedriver:
                 if len(check):
                     break
 
+            logger.info(('=' * 11 + '*') * 5)
+            logger.info('示例:(180111005)地理教学技能 - 1.0 学分')
+            logger.info('课程名的左右不要留有空格！')
+            logger.info(('=' * 11 + '*') * 5)
+
+            time.sleep(0.1)
             # 通过课程名称进行选课操作
-            course_name = input(
-                '请完整复制课程名并粘贴于此处,示例:(180111005)地理教学技能 - 1.0 学分\n'
-                '注意！课程名的左右不要留有空格！\n')
+            course_name = input("请复制课程名并粘贴于此处:")
 
             # kch_id为课程名称中的数字id，如：180111005
             kch_id = course_name.split(')')[0][1:]
@@ -298,8 +302,13 @@ class gzhu_edgedriver:
             except TimeoutException:
                 pass
 
-            course_classification = int(
-                input('请输入课程类别：\n主修课程请输入1，板块课体育请输入2，通识选修请输入3，其他特殊课程请输入4\n'))
+            logger.info(('=' * 11 + '*') * 5)
+            logger.info('主修课程请输入1，板块课体育请输入2')
+            logger.info('通识选修请输入3，其他特殊课程请输入4')
+            logger.info(('=' * 11 + '*') * 5)
+
+            time.sleep(0.1)
+            course_classification = int(input("请输入课程类别："))
 
             if course_classification == 1:
                 self.driver.find_element(
@@ -377,14 +386,13 @@ class gzhu_edgedriver:
             logger.info("%" * 60)
 
             logger.info(('=' * 11 + '*') * 5)
-            logger.info('请从上面的教学班中选择并复制粘贴要选择的教学班的教学班号')
             logger.info('示例:(2021-2022-2)-131800701-1')
             logger.info('教学班号的左右两边不要留有空格！')
             logger.info(('=' * 11 + '*') * 5)
 
             time.sleep(0.1)
             # jxbmc为教学班号，通过输入的教学班号找到对应的jxb_ids的内容
-            jxbmc = input()
+            jxbmc = input('请从上面的教学班中选择并复制粘贴要选择的教学班的教学班号:')
 
             tobeprocessed_jxb_ids = self.driver.find_element(
                 By.XPATH,
