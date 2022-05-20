@@ -28,8 +28,8 @@ def access_maintainCookie(student_number, password, headless, logger):
 
             if not pageName:
                 gzhuEd.login_portal()
+                continue
             if pageName in [0, 1]:
-                gzhuEd.portal_loginStatus()
                 gzhuEd.login_academicSystem('y')
             if pageName in [0, 1, 2]:
                 gzhuEd.academicSystem_loginStatus()
