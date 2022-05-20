@@ -15,18 +15,21 @@ def access_maintainCookie(student_number, password, headless, logger):
     while True:
         try:
             driver.refresh()
-            title = driver.title
 
+            title = driver.title
             if title == '融合门户':
                 pageName = 1
             elif title == '广州大学教学综合信息服务平台':
                 pageName = 2
+            elif title == '':
+                continue
             else:
                 pageName = 0
 
             if not pageName:
                 gzhuEd.login_portal()
             if pageName in [0, 1]:
+                gzhuEd.portal_loginStatus()
                 gzhuEd.login_academicSystem('y')
             if pageName in [0, 1, 2]:
                 gzhuEd.academicSystem_loginStatus()
