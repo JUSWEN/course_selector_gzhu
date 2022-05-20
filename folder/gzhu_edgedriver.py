@@ -223,21 +223,36 @@ class gzhu_edgedriver:
                 time.sleep(0.1)
                 input("程序运行结束，回车以退出程序")
                 sys.exit()
+
+            title = self.driver.title
+            if title == '融合门户':
+                windows = self.driver.window_handles
+                self.driver.switch_to.window(windows[-1])
+
+            try:
+                self.wdwait.until(
+                    EC.visibility_of_element_located(
+                        (By.XPATH, '//img[@class="media-object"]')))
+            except TimeoutException:
+                pass
         else:
-            self.driver.execute_script(
-                "window.open('http://jwxt.gzhu.edu.cn/sso/driot4login')")
+            try:
+                self.driver.execute_script(
+                    "window.open('http://jwxt.gzhu.edu.cn/sso/driot4login')")
+            except Exception:
+                self.logger.error(traceback.format_exc())
+            finally:
+                title = self.driver.title
+                if title == '融合门户':
+                    windows = self.driver.window_handles
+                    self.driver.switch_to.window(windows[-1])
 
-        title = self.driver.title
-        if title == '融合门户':
-            windows = self.driver.window_handles
-            self.driver.switch_to.window(windows[-1])
-
-        try:
-            self.wdwait.until(
-                EC.visibility_of_element_located(
-                    (By.XPATH, '//img[@class="media-object"]')))
-        except TimeoutException:
-            pass
+                try:
+                    self.wdwait.until(
+                        EC.visibility_of_element_located(
+                            (By.XPATH, '//img[@class="media-object"]')))
+                except TimeoutException:
+                    pass
 
     def save_cookie(self):
         '''保存Cookie到./cookies.txt'''
