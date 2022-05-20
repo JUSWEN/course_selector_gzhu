@@ -6,25 +6,29 @@ from .gzhu_edgedriver import gzhu_edgedriver
 
 def access_maintainCookie(student_number, password, headless, logger):
     # pageName用来表示当前页面标题
-    # 0表示初始页面，Unified Identity Authentication页面, 统一身份认证页面和其它页面
+    # 0表示Unified Identity Authentication页面, 统一身份认证页面和其它页面
     pageName = 0
-    gzhuEd = gzhu_edgedriver(student_number, password, logger, headless)
+    first_time = True
 
+    gzhuEd = gzhu_edgedriver(student_number, password, logger, headless)
     driver = gzhuEd.get_driver()
 
     while True:
         try:
-            driver.refresh()
+            if not first_time:
+                driver.refresh()
 
-            title = driver.title
-            if title == '融合门户':
-                pageName = 1
-            elif title == '广州大学教学综合信息服务平台':
-                pageName = 2
-            elif title == '':
-                continue
+                title = driver.title
+                if title == '融合门户':
+                    pageName = 1
+                elif title == '广州大学教学综合信息服务平台':
+                    pageName = 2
+                elif title == '':
+                    continue
+                else:
+                    pageName = 0
             else:
-                pageName = 0
+                first_time = False
 
             if not pageName:
                 gzhuEd.login_portal()

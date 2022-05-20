@@ -69,9 +69,6 @@ class gzhu_edgedriver:
 
     def login_portal(self):
         """从统一身份认证页面登陆融合门户"""
-        student_number = self.student_number
-        password = self.password
-
         self.driver.get(
             "https://newcas.gzhu.edu.cn/cas/login?service=https%3A%2F%2Fnewmy.gzhu.edu.cn%2Fup%2Fview%3Fm%3Dup"
         )
@@ -85,8 +82,8 @@ class gzhu_edgedriver:
             pass
 
         for script in [
-                f"document.getElementById('un').value='{student_number}'",
-                f"document.getElementById('pd').value='{password}'",
+                f"document.getElementById('un').value='{self.student_number}'",
+                f"document.getElementById('pd').value='{self.password}'",
                 "document.getElementById('index_login_btn').click()"
         ]:
             self.driver.execute_script(script)
